@@ -1,0 +1,24 @@
+.navbar-default .navbar-brand {
+    color: #fff;
+    background: #0BF997;
+}
+
+div#bar {
+    display: block;
+    height: 26px;
+    width: 100%;
+    background: aquamarine;
+}
+
+div#bar div {
+    display: inline-block;
+    height: 100%;
+}
+
+#playerMachine fieldset label span {
+    display: none;
+}
+
+.steps.on {
+    background: darkcyan;
+}
