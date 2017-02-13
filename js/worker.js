@@ -8,51 +8,51 @@ let scope = self;
 let DrumKit = {
     kicks: {
         "Kick01": {
-            path: "default/kick/kick01.mp3",
+            path: "default/kick/kick01.wav",
             activated: false
         },
         "Kick02": {
-            path: "default/kick/kick02.mp3",
+            path: "default/kick/kick02.wav",
             activated: true
         }
     },
     snares: {
         "Snare01": {
-            path:"default/snare/snare01.mp3",
+            path:"default/snare/snare01.wav",
             activated: false
         },
         "Snare02": {
-            path: "default/snare/snare02.mp3",
+            path: "default/snare/snare02.wav",
             activated: true
         }
     },
     hihats: {
         "Hi-hat01": {
-            path: "default/hi-hat/hi-hat01.mp3",
+            path: "default/hi-hat/hi-hat01.wav",
             activated: true
         },
         "Hi-hat02": {
-            path: "default/hi-hat/hi-hat02.mp3",
+            path: "default/hi-hat/hi-hat02.wav",
             activated: false
         }
     },
     percs: {
         "Perc01": {
-            path: "default/perc/perc01.mp3",
+            path: "default/perc/perc01.wav",
             activated: true
         },
         "Perc02": {
-            path: "default/perc/perc02.mp3",
+            path: "default/perc/perc02.wav",
             activated: false
         }
     },
     fx: {
         "FX01": {
-            path: "default/fx/fx01.mp3",
+            path: "default/fx/fx01.wav",
             activated: false
         },
         "FX02": {
-            path: "default/fx/fx02.mp3",
+            path: "default/fx/fx02.wav",
             activated: true
         }
     }
@@ -123,7 +123,7 @@ class Player{
 
             this.map[type] = {};
 
-            for(let i = 1; i < this.barsNbr + 1; i++){
+            for(let i = 0; i < this.barsNbr + 1; i++){
                 this.map[type][i] = 0;
             }
 
@@ -142,9 +142,51 @@ class Player{
 
     }
 
-    _playFunction(){
+    _returnLinkActivatedInKit(type){
 
-        // send to main.js informations to DOM
+        for(let typeInst in this.inst.kit){
+            if(typeInst == type){
+                for(let kindofInst in this.inst.kit[typeInst]){
+
+                    for(let activation in this.inst.kit[typeInst][kindofInst]) {
+
+                        let link = this.inst.kit[typeInst][kindofInst]["path"];
+
+                        if (activation == "activated") {
+
+                            if (this.inst.kit[typeInst][kindofInst][activation] == true) {
+                                return link;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    _intervalStart(){
+
+    }
+
+    _playFunction(){
+        let bpmCount = this.bpmCount;
+
+        console.log(bpmCount);
+
+        for(let type in this.map){
+
+            for(let typedatas in this.map[type]){
+
+                if(typedatas == bpmCount) {
+
+                    if (this.map[type][typedatas] == 1) {
+                        postMessage({sound: this._returnLinkActivatedInKit(type)});
+                    }
+
+                }
+            }
+        }
     }
 
     set SetBpm (bpm){
@@ -171,14 +213,16 @@ class Player{
                 }
 
                 this.intervalPlayer = setInterval(function(){
-                    that._playFunction();
+                    that._intervalStart();
                 }, 50);
 
                 // 60,000 ms (1 minute) / Tempo (BPM) = Delay Time in ms for quarter-note beats
 
                 this.intervalBPM = setInterval(function(){
 
+                    that._playFunction();
                     that.bpmCounter();
+
                     scope.postMessage({bpmCount: that.bpmCount});
 
                 }, (60000 / that.bpm));

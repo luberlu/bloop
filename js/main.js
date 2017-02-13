@@ -21,6 +21,7 @@ $(function(){
     // Create a worker
 
     let myworker = new Worker("js/worker.js");
+    let soundWorker = new Worker("js/soundWorker.js");
 
     // Configuration
 
@@ -45,6 +46,17 @@ $(function(){
         if(typeof datas.bpmCount !== "undefined"){
             displayBpm(datas.bpmCount)
         }
+
+        if(typeof datas.sound !== "undefined"){
+            playSound(datas.sound);
+        }
+    };
+
+    // Play sound html5
+
+    var playSound = function(link){
+        sound = new Audio(link);
+        sound.play();
     };
 
     // DOM
@@ -76,14 +88,14 @@ $(function(){
                        '</label>';
             };
 
-            let i = 1;
+            let i = 0;
             while(i < barsNbr){
                 $("fieldset#" + inst).append(constructBar(inst, i));
                 i++;
             }
         }
 
-        let i = 1;
+        let i = 0;
         let widthStep = (1/barsNbr) * 100;
 
         while(i < barsNbr){
