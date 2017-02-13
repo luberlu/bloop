@@ -77,14 +77,14 @@ $(function(){
                        '</label>';
             };
 
-            let i = 0;
+            let i = 1;
             while(i < barsNbr){
                 $("fieldset#" + inst).append(constructBar(inst, i));
                 i++;
             }
         }
 
-        let i = 0;
+        let i = 1;
         let widthStep = (1/barsNbr) * 100;
 
         while(i < barsNbr){
