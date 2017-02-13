@@ -283,10 +283,8 @@ onmessage = function(e){
         myplayer.changeMap(datas.instChange);
     }
 
-    if(typeof datas.database !== "undefined"){
-
-        let newUser = new User(datas.database, datas.infos);
-        console.log(newUser);
+    if(typeof datas.saveAction !== "undefined"){
+        postMessage({loopToSave: myplayer});
     }
 
 };

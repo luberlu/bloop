@@ -34,7 +34,6 @@ $(function(){
         barsNbr: barsNbr
     }});
 
-
     myworker.onmessage = function(event) {
         let datas = event.data;
 
@@ -57,7 +56,11 @@ $(function(){
                 sounds.sources[datas.newAudio.kindOfInst] = datas.newAudio;
                 sounds.audioObjects[datas.newAudio.kindOfInst] = new Audio(datas.newAudio.link);
             }
+        }
 
+        if(typeof datas.loopToSave !== "undefined"){
+            newUser.mapInObject = datas.loopToSave;
+            newUser.setMap(1);
         }
     };
 
@@ -154,6 +157,10 @@ $(function(){
         createUser();
     });
 
+    $("#saveMap").click(function(){
+        myworker.postMessage({saveAction: true});
+    });
+
 
     let afterCreateObjDom = function() {
 
@@ -176,7 +183,12 @@ $(function(){
             this.uid = uid;
             this.token = token;
             this.userInfos = user;
+            this.maps = [];
             this._checkIfAlreadyExist();
+        }
+
+        set mapInObject(kit){
+            this.maps = kit;
         }
 
         _checkIfAlreadyExist(){
@@ -198,8 +210,9 @@ $(function(){
 
         setMap(id){
 
-            database.child("users/" + this.uid + '/loops/' + 0).set({
-                map: {}
+            database.child("users/" + this.uid + "/loops/" + id).set({
+                nameOfLoop: "Dubstep sa mère",
+                kit: this.maps
             });
 
         }
@@ -226,7 +239,7 @@ $(function(){
             let user = result.user;
             let uid = result.user.uid;
 
-            let newUser = new User(uid, token, user);
+            newUser = new User(uid, token, user);
             console.log(newUser);
 
         }).catch(function(error) {
@@ -240,7 +253,7 @@ $(function(){
             console.log(errorMessage);
 
         });
-        
+
 
     };
 
