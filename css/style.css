@@ -47,3 +47,7 @@ fieldset > label:nth-child(1) {
     background: darkcyan;
     transition: all 0.7s ease;
 }
+
+button#createUser {
+    margin-bottom: 50px;
+}

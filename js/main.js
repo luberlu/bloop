@@ -133,6 +133,9 @@ $(function(){
         myworker.postMessage({bpm: bpm});
     });
 
+    $("#createUser").click(function(){
+        createUser();
+    });
 
 
     let afterCreateObjDom = function() {
@@ -145,6 +148,75 @@ $(function(){
             }});
 
         });
+
+    };
+
+
+    // User Class
+
+    class User {
+
+        constructor(uid, token, user){
+            this.uid = uid;
+            this.token = token;
+            this.userInfos = user;
+            this._checkIfAlreadyExist();
+        }
+
+        _checkIfAlreadyExist(){
+
+            let that = this;
+
+            database.child("users/" + this.uid).once("value", function(snap){
+                let exists = (snap.val() !== null);
+
+                if(!exists){
+                    that._createUserToDatabase();
+                }
+
+            });
+
+        }
+
+        _createUserToDatabase(){
+
+            database.child("users/" + this.uid).set({
+                name: "Julien",
+                token: this.token
+            })
+        }
+    }
+
+
+    // Firebase functions (auth, database etc..)
+
+
+    var createUser = function(){
+
+        let provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+
+            console.log(result);
+            let token = result.credential.accessToken;
+            let user = result.user;
+            let uid = result.uid;
+
+            let newUser = new User(uid, token, user);
+
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            var email = error.email;
+
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+
+            console.log(errorMessage);
+
+        });
+
+        console.log("create a user");
 
     };
 
