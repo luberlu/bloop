@@ -21,7 +21,6 @@ $(function(){
     // Create a worker
 
     let myworker = new Worker("js/worker.js");
-    let soundWorker = new Worker("js/soundWorker.js");
 
     // Configuration
 

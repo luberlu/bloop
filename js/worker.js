@@ -109,7 +109,7 @@ class Player{
         this.bpm = bpm;
         this.barsNbr = barsNbr;
         this.onPlay = null;
-        this.bpmCount = 0;
+        this.bpmCount = 1;
         this.intervalPlayer = null;
         this.intervalBPM = null;
         this.inst = Inst;
@@ -123,7 +123,7 @@ class Player{
 
             this.map[type] = {};
 
-            for(let i = 0; i < this.barsNbr + 1; i++){
+            for(let i = 1; i < this.barsNbr + 1; i++){
                 this.map[type][i] = 0;
             }
 
@@ -134,9 +134,8 @@ class Player{
     changeMap(obj){
         let type = (obj.id).split("_")[0];
         let barNbr = (obj.id).split("_")[1];
-        let state = obj.state;
 
-        this.map[type][barNbr] = state;
+        this.map[type][barNbr] = obj.state;
 
         console.log(this.map);
 
@@ -178,6 +177,8 @@ class Player{
 
             for(let typedatas in this.map[type]){
 
+                console.log(typedatas);
+
                 if(typedatas == bpmCount) {
 
                     if (this.map[type][typedatas] == 1) {
@@ -208,7 +209,7 @@ class Player{
                 if(typeof this.intervalPlayer !== null){
                     clearInterval(this.intervalPlayer);
 
-                    this.bpmCount = 0;
+                    this.bpmCount = 1;
                     clearInterval(this.intervalBPM);
                 }
 
@@ -237,7 +238,7 @@ class Player{
     }
 
     bpmCounter(){
-        if(this.bpmCount == 16){
+        if(this.bpmCount == this.barsNbr){
             this.bpmCount = 1;
         } else
             this.bpmCount++;
