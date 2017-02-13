@@ -225,6 +225,10 @@ onmessage = function(e){
         myplayer.SetBpm = datas.bpm;
     }
 
+    if(typeof datas.instChange !== "undefined"){
+        console.log(datas.instChange);
+    }
+
 };
 
 

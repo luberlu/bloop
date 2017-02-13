@@ -61,7 +61,6 @@ $(function(){
 
     let createDrum = function(obj){
 
-        drummachine.append("<form id='playerMachine'></form>");
         let player = $("#playerMachine");
 
         for(let inst in obj){
@@ -72,8 +71,8 @@ $(function(){
             let constructBar = function(label, nbr){
 
                 return '<label>' +
-                       '<input type="checkbox" name="'+ label +'" id="kick" value="' + nbr + '" /><span>' +
-                        label + (nbr + 1) + '</span>' +
+                       '<input type="checkbox" name="'+ label +'" id="' + label + '_' + nbr + '" value="' + nbr + '" /><span>' +
+                        label + nbr  + '</span>' +
                        '</label>';
             };
 
@@ -93,6 +92,9 @@ $(function(){
                 "style='width:" + widthStep + "%'></div>");
             i++;
         }
+
+        afterCreateObjDom();
+
 
     };
 
@@ -117,11 +119,20 @@ $(function(){
         myworker.postMessage({bpm: bpm});
     });
 
-    $('#playerMachine').change(function(){
 
-        console.log($(this));
 
-    });
+    let afterCreateObjDom = function() {
+
+        $('#playerMachine :input').change(function (e) {
+
+            myworker.postMessage({instChange: {
+                id: e.target.id,
+                state: (this.checked) ? 1 : 0
+            }});
+
+        });
+
+    };
 
 
 });
