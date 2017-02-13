@@ -6,6 +6,7 @@
 div#bar {
     display: block;
     height: 26px;
+    margin-top: 16px;
     width: 100%;
     background: aquamarine;
 }
@@ -13,6 +14,26 @@ div#bar {
 div#bar div {
     display: inline-block;
     height: 100%;
+}
+
+#playerMachine input[type=checkbox], input[type=radio] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+
+    width: 100%;
+    height: 55px;
+    background: aquamarine;
+    border: solid 1px white;
+}
+
+#playerMachine input[type=checkbox]:checked {
+    background: bisque;
+}
+
+fieldset > label:nth-child(1) {
+    width: 100%;
 }
 
 #playerMachine fieldset label span {

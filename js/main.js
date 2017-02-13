@@ -74,6 +74,8 @@ $(function(){
 
         let player = $("#playerMachine");
 
+        let widthStep = (1/barsNbr) * 100;
+
         for(let inst in obj){
             player.append("<fieldset id='"+ inst + "'><label>" + inst + "</label></fieldset>");
 
@@ -81,7 +83,9 @@ $(function(){
 
             let constructBar = function(label, nbr){
 
-                return '<label>' +
+                return '<label style="width:'+
+                        widthStep +'%; height:100%">' +
+
                        '<input type="checkbox" name="'+ label +'" id="' + label + '_' + nbr + '" value="' + nbr + '" /><span>' +
                         label + nbr  + '</span>' +
                        '</label>';
@@ -95,7 +99,6 @@ $(function(){
         }
 
         let i = 0;
-        let widthStep = (1/barsNbr) * 100;
 
         while(i < barsNbr){
 
@@ -112,7 +115,7 @@ $(function(){
     let displayBpm = function(BpmCounter){
 
         $(".steps").removeClass("on");
-        $("#step_" + BpmCounter).addClass("on");
+        $("#step_" + (BpmCounter - 1)).addClass("on");
     };
 
     // Interactions (clicks, keyboard..)

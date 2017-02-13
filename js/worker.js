@@ -119,41 +119,33 @@ class Player{
 
     _createMapping(){
 
-        for(let type in this.inst.kit){
-
-            this.map[type] = {};
+        for(let type in this.inst.kit){ this.map[type] = {};
 
             for(let i = 1; i < this.barsNbr + 1; i++){
                 this.map[type][i] = 0;
             }
-
         }
-
     }
 
     changeMap(obj){
         let type = (obj.id).split("_")[0];
         let barNbr = (obj.id).split("_")[1];
-
         this.map[type][barNbr] = obj.state;
-
-        console.log(this.map);
-
     }
 
     _returnLinkActivatedInKit(type){
 
         for(let typeInst in this.inst.kit){
             if(typeInst == type){
-                for(let kindofInst in this.inst.kit[typeInst]){
+                for(let kindOfInst in this.inst.kit[typeInst]){
 
-                    for(let activation in this.inst.kit[typeInst][kindofInst]) {
+                    for(let activation in this.inst.kit[typeInst][kindOfInst]) {
 
-                        let link = this.inst.kit[typeInst][kindofInst]["path"];
+                        let link = this.inst.kit[typeInst][kindOfInst]["path"];
 
                         if (activation == "activated") {
 
-                            if (this.inst.kit[typeInst][kindofInst][activation] == true) {
+                            if (this.inst.kit[typeInst][kindOfInst][activation] == true) {
                                 return link;
                             }
                         }
@@ -171,13 +163,9 @@ class Player{
     _playFunction(){
         let bpmCount = this.bpmCount;
 
-        console.log(bpmCount);
-
         for(let type in this.map){
 
             for(let typedatas in this.map[type]){
-
-                console.log(typedatas);
 
                 if(typedatas == bpmCount) {
 
@@ -252,7 +240,6 @@ let init = function(bpm, barsNbr){
 
     let mydrum = new Drum(DrumKit, "Drum");
     myplayer = new Player(bpm, barsNbr, mydrum);
-    console.log(myplayer.map);
 
     postMessage({drum: mydrum.kit});
 
