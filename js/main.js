@@ -87,8 +87,8 @@ $(function(){
                        '</label>';
             };
 
-            let i = 0;
-            while(i < barsNbr){
+            let i = 1;
+            while(i < (barsNbr + 1)){
                 $("fieldset#" + inst).append(constructBar(inst, i));
                 i++;
             }
