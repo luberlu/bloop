@@ -126,7 +126,7 @@ $(function(){
         $('#playerMachine :input').change(function (e) {
 
             myworker.postMessage({instChange: {
-                id: e.target.id,
+                id: (e.target.id).toLowerCase(),
                 state: (this.checked) ? 1 : 0
             }});
 

@@ -16,7 +16,7 @@ let DrumKit = {
             activated: true
         }
     },
-    Snares: {
+    snares: {
         "Snare01": {
             path:"default/snare/snare01.mp3",
             activated: false
@@ -26,7 +26,7 @@ let DrumKit = {
             activated: true
         }
     },
-    Hihats: {
+    hihats: {
         "Hi-hat01": {
             path: "default/hi-hat/hi-hat01.mp3",
             activated: true
@@ -36,7 +36,7 @@ let DrumKit = {
             activated: false
         }
     },
-    Percs: {
+    percs: {
         "Perc01": {
             path: "default/perc/perc01.mp3",
             activated: true
@@ -46,7 +46,7 @@ let DrumKit = {
             activated: false
         }
     },
-    FX: {
+    fx: {
         "FX01": {
             path: "default/fx/fx01.mp3",
             activated: false
@@ -131,6 +131,17 @@ class Player{
 
     }
 
+    changeMap(obj){
+        let type = (obj.id).split("_")[0];
+        let barNbr = (obj.id).split("_")[1];
+        let state = obj.state;
+
+        this.map[type][barNbr] = state;
+
+        console.log(this.map);
+
+    }
+
     _playFunction(){
 
         // send to main.js informations to DOM
@@ -196,10 +207,11 @@ let init = function(bpm, barsNbr){
 
     let mydrum = new Drum(DrumKit, "Drum");
     myplayer = new Player(bpm, barsNbr, mydrum);
+    console.log(myplayer.map);
 
     postMessage({drum: mydrum.kit});
 
-    let addSound = mydrum.addSound("FX", "FX03", "hdh.mp3");
+    let addSound = mydrum.addSound("fx", "FX03", "hdh.mp3");
 
     if(!addSound){
         alert(addSound);
@@ -226,7 +238,7 @@ onmessage = function(e){
     }
 
     if(typeof datas.instChange !== "undefined"){
-        console.log(datas.instChange);
+        myplayer.changeMap(datas.instChange);
     }
 
 };
