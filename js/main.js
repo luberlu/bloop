@@ -15,7 +15,7 @@ $(function(){
 
         firebase.initializeApp(config);
 
-        let database = firebase.database().ref("xmusic");
+        let database = firebase.database().ref("bloop");
 
 
     // Create a worker
@@ -151,7 +151,6 @@ $(function(){
 
     };
 
-
     // User Class
 
     class User {
@@ -172,8 +171,18 @@ $(function(){
 
                 if(!exists){
                     that._createUserToDatabase();
+                } else {
+                    console.log("User already exist");
                 }
 
+            });
+
+        }
+
+        setMap(id){
+
+            database.child("users/" + this.uid + '/loops/' + 0).set({
+                map: {}
             });
 
         }
@@ -181,12 +190,11 @@ $(function(){
         _createUserToDatabase(){
 
             database.child("users/" + this.uid).set({
-                name: "Julien",
+                email: this.userInfos.email,
                 token: this.token
-            })
+            });
         }
     }
-
 
     // Firebase functions (auth, database etc..)
 
@@ -197,12 +205,12 @@ $(function(){
 
         firebase.auth().signInWithPopup(provider).then(function(result) {
 
-            console.log(result);
             let token = result.credential.accessToken;
             let user = result.user;
-            let uid = result.uid;
+            let uid = result.user.uid;
 
             let newUser = new User(uid, token, user);
+            console.log(newUser);
 
         }).catch(function(error) {
             var errorCode = error.code;
