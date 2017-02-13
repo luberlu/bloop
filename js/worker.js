@@ -114,6 +114,7 @@ class Player{
         this.intervalBPM = null;
         this.inst = Inst;
         this.map = {};
+        this.activatedLinks = [];
         this._createMapping();
     }
 
@@ -146,7 +147,16 @@ class Player{
                         if (activation == "activated") {
 
                             if (this.inst.kit[typeInst][kindOfInst][activation] == true) {
-                                return link;
+
+
+                                postMessage({ newAudio : {
+                                    typeInst: typeInst,
+                                    kindOfInst: kindOfInst,
+                                    link: link
+                                }});
+
+                                return kindOfInst;
+
                             }
                         }
 
@@ -203,7 +213,7 @@ class Player{
 
                 this.intervalPlayer = setInterval(function(){
                     that._intervalStart();
-                }, 50);
+                }, 10);
 
                 // 60,000 ms (1 minute) / Tempo (BPM) = Delay Time in ms for quarter-note beats
 

@@ -5,17 +5,17 @@ $(function(){
 
     // init Firebase
 
-        let config = {
-            apiKey: "AIzaSyAUNsxtZkmEgVd2aEGTNn0KYTkxrIDqDoU",
-            authDomain: "my-firebase-f02fa.firebaseapp.com",
-            databaseURL: "https://my-firebase-f02fa.firebaseio.com",
-            storageBucket: "my-firebase-f02fa.appspot.com",
-            messagingSenderId: "912536062883"
-        };
+    let config = {
+        apiKey: "AIzaSyAUNsxtZkmEgVd2aEGTNn0KYTkxrIDqDoU",
+        authDomain: "my-firebase-f02fa.firebaseapp.com",
+        databaseURL: "https://my-firebase-f02fa.firebaseio.com",
+        storageBucket: "my-firebase-f02fa.appspot.com",
+        messagingSenderId: "912536062883"
+    };
 
-        firebase.initializeApp(config);
+    firebase.initializeApp(config);
 
-        let database = firebase.database().ref("bloop");
+    let database = firebase.database().ref("bloop");
 
 
     // Create a worker
@@ -25,7 +25,7 @@ $(function(){
     // Configuration
 
     let bpm = 120;
-    let barsNbr = 32;
+    let barsNbr = 16;
 
     // Init Call to Worker
 
@@ -40,6 +40,7 @@ $(function(){
 
         if(typeof datas.drum !== "undefined"){
             createDrum(datas.drum);
+            //createSounds(datas.drum);
         }
 
         if(typeof datas.bpmCount !== "undefined"){
@@ -49,13 +50,29 @@ $(function(){
         if(typeof datas.sound !== "undefined"){
             playSound(datas.sound);
         }
+
+        if(typeof datas.newAudio !== "undefined"){
+
+            if(typeof sounds.sources[datas.newAudio.kindOfInst] == "undefined") {
+                sounds.sources[datas.newAudio.kindOfInst] = datas.newAudio;
+                sounds.audioObjects[datas.newAudio.kindOfInst] = new Audio(datas.newAudio.link);
+            }
+
+        }
     };
+
+    // all sounds Array to new Audio Obj
+
+    let sounds = {
+        sources: [],
+        audioObjects: []
+    };
+
 
     // Play sound html5
 
     var playSound = function(link){
-        sound = new Audio(link);
-        sound.play();
+        sounds.audioObjects[link].play();
     };
 
     // DOM
@@ -84,11 +101,11 @@ $(function(){
             let constructBar = function(label, nbr){
 
                 return '<label style="width:'+
-                        widthStep +'%; height:100%">' +
+                    widthStep +'%; height:100%">' +
 
-                       '<input type="checkbox" name="'+ label +'" id="' + label + '_' + nbr + '" value="' + nbr + '" /><span>' +
-                        label + nbr  + '</span>' +
-                       '</label>';
+                    '<input type="checkbox" name="'+ label +'" id="' + label + '_' + nbr + '" value="' + nbr + '" /><span>' +
+                    label + nbr  + '</span>' +
+                    '</label>';
             };
 
             let i = 1;
@@ -223,8 +240,7 @@ $(function(){
             console.log(errorMessage);
 
         });
-
-        console.log("create a user");
+        
 
     };
 
