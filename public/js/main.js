@@ -341,7 +341,7 @@ $(function(){
     let handlebarsUpdateList = function(loop){
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
-        $('#all_loops .row').append(theCompiledHtml);
+        $('#all_loops .row').prepend(theCompiledHtml);
     };
 
 
