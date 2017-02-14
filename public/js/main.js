@@ -306,6 +306,7 @@ $(function(){
     };
 
     let looplist = $("#loops-list").html();
+    let appendloop = $("#append-loop").html();
     let loops;
 
     // Database onload
@@ -314,28 +315,32 @@ $(function(){
 
         if(typeof loops == "undefined") {
             loops = snap.val();
-
-            handlebarsUpdateList();
+            handlebarsList();
         }
 
     });
 
     // Database on_child_added
 
-    //database.child("loops/").on("child_added", function(snap){
-    //    loops.push(snap.val());
-    //    handlebarsUpdateList();
-    //});
+    database.child("loops/").on("child_added", function(snap){
+        handlebarsUpdateList(snap.val());
+    });
 
 
     // Handlebars
 
-    let handlebarsUpdateList = function(){
+    let handlebarsList = function(){
         console.log(loops);
         let template = Handlebars.compile(looplist);
         let theCompiledHtml = template(loops);
         $('#all_loops').html(theCompiledHtml);
         afterListLoad();
+    };
+
+    let handlebarsUpdateList = function(loop){
+        let template = Handlebars.compile(appendloop);
+        let theCompiledHtml = template(loop);
+        $('#all_loops .row').append(theCompiledHtml);
     };
 
 
