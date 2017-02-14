@@ -213,6 +213,7 @@ $(function(){
 
         $("#createUser").click(function(){
             createUser();
+            $(".create-own").hide();
         });
     };
 
