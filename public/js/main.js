@@ -16,6 +16,9 @@ $(function(){
     firebase.initializeApp(config);
 
     let database = firebase.database().ref("bloop");
+    let storage = firebase.storage();
+    let storageRef = storage.ref();
+    let soundsRef = storageRef.child('sounds/default');
 
 
     // Create a worker
@@ -50,12 +53,43 @@ $(function(){
             playSound(datas.sound);
         }
 
+        // If new audio Upload
+
         if(typeof datas.newAudio !== "undefined"){
 
-            if(typeof sounds.sources[datas.newAudio.kindOfInst] == "undefined") {
-                sounds.sources[datas.newAudio.kindOfInst] = datas.newAudio;
-                sounds.audioObjects[datas.newAudio.kindOfInst] = new Audio(datas.newAudio.link);
+            if(typeof sounds.sources[datas.newAudio.kindOfInst.toLowerCase()] == "undefined") {
+                sounds.sources[datas.newAudio.kindOfInst.toLowerCase()] = datas.newAudio;
+
+                // firebase storage call for url
+
+                soundsRef.child(datas.newAudio.link).getDownloadURL().then(function(url) {
+                    sounds.audioObjects[datas.newAudio.kindOfInst.toLowerCase()] = new Audio(url);
+                });
             }
+        }
+
+        // Init defaultSounds in html5
+
+        if(typeof datas.defaultSounds !== "undefined"){
+
+            for(let objects in datas.defaultSounds){
+
+                for(let kindOfObj in datas.defaultSounds[objects]) {
+
+                    if (typeof sounds.sources[kindOfObj.toLowerCase()] == "undefined") {
+                        sounds.sources[kindOfObj.toLowerCase()] = datas.defaultSounds[objects];
+
+                        // firebase storage call for url
+
+                        soundsRef.child(datas.defaultSounds[objects][kindOfObj].path).getDownloadURL().then(function (url) {
+                            sounds.audioObjects[kindOfObj.toLowerCase()] = new Audio(url);
+                        });
+                    }
+
+                }
+
+            }
+
         }
 
         if(typeof datas.loopToSave !== "undefined"){
@@ -75,7 +109,7 @@ $(function(){
     // Play sound html5
 
     var playSound = function(link){
-        sounds.audioObjects[link].play();
+        sounds.audioObjects[link.toLowerCase()].play();
     };
 
     // DOM
@@ -188,7 +222,7 @@ $(function(){
         }
 
         set mapInObject(kit){
-            this.maps = kit;
+            this.maps.push(kit);
         }
 
         _checkIfAlreadyExist(){

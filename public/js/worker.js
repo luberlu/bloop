@@ -8,51 +8,51 @@ let scope = self;
 let DrumKit = {
     kicks: {
         "Kick01": {
-            path: "default/kick/kick01.wav",
+            path: "kick/kick01.wav",
             activated: false
         },
         "Kick02": {
-            path: "default/kick/kick02.wav",
+            path: "kick/kick02.wav",
             activated: true
         }
     },
     snares: {
         "Snare01": {
-            path:"default/snare/snare01.wav",
+            path:"snare/snare01.wav",
             activated: false
         },
         "Snare02": {
-            path: "default/snare/snare02.wav",
+            path: "snare/snare02.wav",
             activated: true
         }
     },
     hihats: {
         "Hi-hat01": {
-            path: "default/hi-hat/hi-hat01.wav",
+            path: "hi-hat/hi-hat01.wav",
             activated: true
         },
         "Hi-hat02": {
-            path: "default/hi-hat/hi-hat02.wav",
+            path: "hi-hat/hi-hat02.wav",
             activated: false
         }
     },
     percs: {
         "Perc01": {
-            path: "default/perc/perc01.wav",
+            path: "perc/perc01.wav",
             activated: true
         },
         "Perc02": {
-            path: "default/perc/perc02.wav",
+            path: "perc/perc02.wav",
             activated: false
         }
     },
     fx: {
         "FX01": {
-            path: "default/fx/fx01.wav",
+            path: "fx/fx01.wav",
             activated: false
         },
         "FX02": {
-            path: "default/fx/fx02.wav",
+            path: "fx/fx02.wav",
             activated: true
         }
     }
@@ -80,6 +80,10 @@ class Inst {
         else
             return "Oops! Change the name already exist"
 
+    }
+
+    returnAllSounds(){
+        return this.kit;
     }
 
     _AlreadyExist(type, name){ let exist;
@@ -252,6 +256,7 @@ let init = function(bpm, barsNbr){
     myplayer = new Player(bpm, barsNbr, mydrum);
 
     postMessage({drum: mydrum.kit});
+    postMessage({defaultSounds: mydrum.returnAllSounds()});
 
     let addSound = mydrum.addSound("fx", "FX03", "hdh.mp3");
 
