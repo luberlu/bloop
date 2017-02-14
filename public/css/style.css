@@ -3,6 +3,14 @@
     background: #0BF997;
 }
 
+a.navbar-brand {
+    padding: 0;
+}
+
+a.navbar-brand img {
+    height: 100%;
+}
+
 div#bar {
     display: block;
     height: 26px;
