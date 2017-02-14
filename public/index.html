@@ -53,9 +53,10 @@
 <main class="container-fluid">
     <section id="masthead" class="jumbotron row">
         <h1 class="text-center">bloop app</h1>
-        <h2>Create your own loop now</h2>
-        <button id="createUser">Connect with google ></button>
+        <section id="all_loops"></section>
         <button id="saveMap">Save my loop</button>
+    </section>
+    <section id="informations" class="jumbotron row">
         <div id="machine">
             <header id="control-machine">
                 <button id="play">play</button>
@@ -68,9 +69,24 @@
             </form>
         </div>
     </section>
-    <section id="informations" class="jumbotron row"></section>
     <section id="actions" class="jumbotron row"></section>
 </main>
+
+
+<script id="loops-list" type="text/x-handlebars-template">
+    <div class="row">
+        {{#each this}}
+            <div class="col-lg-3 col-sm-3 col-xs-12">
+                <h3>{{nameOfLoop}}</h3>
+                <button class="btn-block">Play</button>
+            </div>
+        {{/each}}
+            <div class="col-lg-3 col-sm-3 col-xs-12">
+                <h3>Create your own loop</h3>
+                <button id="createUser">Google connect ></button>
+            </div>
+    </div>
+</script>
 
 
 <script src="js/lib/jquery.js"></script>

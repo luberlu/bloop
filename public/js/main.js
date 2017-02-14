@@ -209,6 +209,13 @@ $(function(){
 
     };
 
+    let afterListLoad = function(){
+
+        $("#createUser").click(function(){
+            createUser();
+        });
+    };
+
     // User Class
 
     class User {
@@ -245,6 +252,13 @@ $(function(){
         setMap(id){
 
             database.child("users/" + this.uid + "/loops/" + id).set({
+                nameOfLoop: "Dubstep sa mère",
+                kit: this.maps
+            });
+
+            database.child("loops/").push({
+                uid: this.uid,
+                id_loop: id,
                 nameOfLoop: "Dubstep sa mère",
                 kit: this.maps
             });
@@ -289,6 +303,39 @@ $(function(){
         });
 
 
+    };
+
+    let looplist = $("#loops-list").html();
+    let loops;
+
+    // Database onload
+
+    database.child("loops/").on("value", function(snap){
+
+        if(typeof loops == "undefined") {
+            loops = snap.val();
+
+            handlebarsUpdateList();
+        }
+
+    });
+
+    // Database on_child_added
+
+    //database.child("loops/").on("child_added", function(snap){
+    //    loops.push(snap.val());
+    //    handlebarsUpdateList();
+    //});
+
+
+    // Handlebars
+
+    let handlebarsUpdateList = function(){
+        console.log(loops);
+        let template = Handlebars.compile(looplist);
+        let theCompiledHtml = template(loops);
+        $('#all_loops').html(theCompiledHtml);
+        afterListLoad();
     };
 
 

@@ -51,3 +51,8 @@ fieldset > label:nth-child(1) {
 button#createUser {
     margin-bottom: 50px;
 }
+
+section#all_loops .row div {
+    min-height: 213px;
+    border: solid 1px black;
+}
