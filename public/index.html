@@ -51,19 +51,26 @@
 </nav>
 
 <section id="masthead" class="row">
-    <h1 class="text-center">Make funny loops</h1>
+    <h1 class="text-center">Make funny loops with Bloop</h1>
+    <h2 class="text-center">Upload your sounds to the Drum Machine and become the best <span class="blooper-word">Blooper</span></h2>
+
+    <p class="text-center">
+    <button id="createUser-masthead">Try with google account ></button>
+    </p>
 </section>
 
 <main class="container-fluid">
 
     <section id="loopsSection" class="jumbotron row">
         <section id="all_loops">
-            <h3>Last loops</h3>
+            <h3>Last loops of the day</h3>
             <div class="row">
 
                 <div class="create-own col-lg-3 col-sm-3 col-xs-12">
                     <div class="inside-col">
+                        <img src="img/machine.svg" style="-webkit-filter: invert(100%);"/>
                         <h3>Create your own loop</h3>
+
                         <button id="createUser">Google connect ></button>
                     </div>
                 </div>
@@ -119,6 +126,7 @@
             </div>
             <h3>{{this.nameOfLoop}}</h3>
             <h4>{{this.kit.0.barsNbr}} bars</h4>
+            <span class="bpm">{{this.kit.0.bpm}} BPM</span>
         </div>
     </div>
 </script>

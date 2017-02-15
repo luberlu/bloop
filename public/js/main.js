@@ -228,7 +228,7 @@ $(function(){
         myworker.postMessage({nameLoop: name});
     });
 
-    $("#createUser").click(function(){
+    $("#createUser, #createUser-masthead").click(function(){
         createUser();
     });
 
@@ -249,8 +249,13 @@ $(function(){
 
     };
 
+    function displayCreate() {
+        $(".create-own").show();
+    }
+
     let afterListLoad = function(){
 
+        displayCreate();
 
         $(".play-loop").off().on("click", function(e){
 
@@ -349,18 +354,6 @@ $(function(){
 
         }
 
-        // _getName() {
-        //
-        //     switch(this.authData.provider) {
-        //         case 'password':
-        //             return this.authData.password.email.replace(/@.*/, '');
-        //         case 'twitter':
-        //             return this.authData.twitter.displayName;
-        //         case 'facebook':
-        //             return this.authData.facebook.displayName;
-        //     }
-        // }
-
         _createUserToDatabase(){
 
             database.child("users/" + this.uid).set({
@@ -368,17 +361,6 @@ $(function(){
                 token: this.token
             });
 
-            // database.onAuth(function(authData) {
-            //
-            //     this.authData = authData;
-            //
-            //     if (authData) {
-            //         ref.child("users").child(authData.uid).set({
-            //             provider: authData.provider,
-            //             name: this._getName()
-            //         });
-            //     }
-            // });
         }
     }
 
@@ -436,6 +418,11 @@ $(function(){
     let handlebarsUpdateList = function(loop){
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
+
+        if($('#all_loops .row .list-loop').length == 7){
+            $('#all_loops .row .list-loop').last().remove();
+        }
+
         $('#all_loops .row').prepend(theCompiledHtml);
         afterListLoad();
     };
