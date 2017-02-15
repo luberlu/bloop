@@ -201,7 +201,7 @@ $(function(){
 
         } else {
             $('#all_loops .ON .progress-bar span').removeClass('on');
-            $('#all_loops .ON .progress-bar #' + (BpmCounter - 1)).addClass("on");
+            $('#all_loops .ON .progress-bar #' + (BpmCounter - 2)).addClass("on");
         }
 
     };
