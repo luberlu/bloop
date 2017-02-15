@@ -101,12 +101,13 @@ section#all_loops .row > div:hover button.play {
 }
 
 .progress-bar span {
-    display: inline-block;
+    display: block;
+    float: left;
     height: 7px;
 }
 
 .progress-bar span.on {
-    background: brown;
+    background: #0bf997;
 }
 
 .img-loop {
