@@ -294,9 +294,13 @@ section#masthead {
 }
 
 section#masthead h1 {
-    margin-top: 141px;
+    margin-top: 20px;
 }
 
 section#masthead p {
     margin-top: 33px;
+}
+
+section#masthead .img-masthead {
+    margin-top: 67px;
 }
