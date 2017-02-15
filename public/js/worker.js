@@ -109,7 +109,7 @@ class Drum extends Inst {
 // Player Class
 
 class Player{
-    constructor(bpm, barsNbr, Inst){
+    constructor(bpm, barsNbr, Inst, loop){
         this.bpm = bpm;
         this.barsNbr = barsNbr;
         this.onPlay = null;
@@ -118,8 +118,11 @@ class Player{
         this.intervalBPM = null;
         this.inst = Inst;
         this.map = {};
-        this.activatedLinks = [];
-        this._createMapping();
+
+        if(typeof loop == "undefined")
+            this._createMapping();
+        else
+            this._createMappingWithMapLoop(loop);
     }
 
     _createMapping(){
@@ -130,6 +133,10 @@ class Player{
                 this.map[type][i] = 0;
             }
         }
+    }
+
+    _createMappingWithMapLoop(loop){
+        this.map = loop;
     }
 
     changeMap(obj){
@@ -182,6 +189,8 @@ class Player{
             for(let typedatas in this.map[type]){
 
                 if(typedatas == bpmCount) {
+
+                    console.log(this.map[type]);
 
                     if (this.map[type][typedatas] == 1) {
                         postMessage({sound: this._returnLinkActivatedInKit(type)});
@@ -258,12 +267,6 @@ let init = function(bpm, barsNbr){
     postMessage({drum: mydrum.kit});
     postMessage({defaultSounds: mydrum.returnAllSounds()});
 
-    let addSound = mydrum.addSound("fx", "FX03", "hdh.mp3");
-
-    if(!addSound){
-        alert(addSound);
-    }
-
 };
 
 
@@ -290,6 +293,27 @@ onmessage = function(e){
 
     if(typeof datas.saveAction !== "undefined"){
         postMessage({loopToSave: myplayer});
+    }
+
+
+    // Play loops list
+
+    if(typeof datas.playloop !== "undefined"){
+        if(datas.playloop == true){
+
+            let map = datas.loopDatas.kit[0].map;
+
+            let drumloop = new Drum(datas.loopDatas.kit[0].inst.kit,
+                                    datas.loopDatas.kit[0].inst.name);
+
+            let playerloop = new Player(datas.loopDatas.kit[0].bpm,
+                                        datas.loopDatas.kit[0].barsNbr,
+                                        drumloop, map);
+
+            postMessage({SoundsLoop: drumloop.returnAllSounds()});
+
+            playerloop.onPlay = true;
+        }
     }
 
 };

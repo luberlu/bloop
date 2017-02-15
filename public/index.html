@@ -53,8 +53,17 @@
 <main class="container-fluid">
     <section id="masthead" class="jumbotron row">
         <h1 class="text-center">bloop app</h1>
-        <section id="all_loops"></section>
-        <button id="saveMap">Save my loop</button>
+        <section id="all_loops">
+            <div class="row">
+
+                <div class="create-own col-lg-3 col-sm-3 col-xs-12">
+                    <div class="inside-col">
+                        <h3>Create your own loop</h3>
+                        <button id="createUser">Google connect ></button>
+                    </div>
+                </div>
+            </div>
+        </section>
     </section>
     <section id="informations" class="jumbotron row">
         <div id="machine">
@@ -62,6 +71,7 @@
                 <button id="play">play</button>
                 <button id="stop">stop</button>
                 <label for="bpm">BPM</label>
+                <button id="saveMap">Save my loop</button>
                 <input type="text" id="bpm" name="bpm" value="120">
                 <div id="bar"></div>
             </header>
@@ -73,40 +83,15 @@
 </main>
 
 
-<script id="loops-list" type="text/x-handlebars-template">
-    <div class="row">
-        {{#each this}}
-            <div class="col-lg-3 col-sm-3 col-xs-12">
-                <div class="inside-col">
-                    <div class="progress-bar"></div>
-                    <div class="img-loop">
-                        <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
-                             class="img-circle img-responsive"
-                             alt="Cinque Terre">
-                        <button class="btn-block play">Play</button>
-                    </div>
-                    <h3>{{nameOfLoop}}</h3>
-                </div>
-            </div>
-        {{/each}}
-            <div class="create-own col-lg-3 col-sm-3 col-xs-12">
-                <div class="inside-col">
-                    <h3>Create your own loop</h3>
-                    <button id="createUser">Google connect ></button>
-                </div>
-            </div>
-    </div>
-</script>
-
 <script id="append-loop" type="text/x-handlebars-template">
-    <div class="col-lg-3 col-sm-3 col-xs-12">
+    <div id="list-loop-{{this.idLoop}}" class="col-lg-3 col-sm-3 col-xs-12">
         <div class="inside-col">
             <div class="progress-bar"></div>
             <div class="img-loop">
                 <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
                      class="img-circle img-responsive"
                      alt="Cinque Terre">
-                <button class="btn-block play">Play</button>
+                <button id="play-{{this.idLoop}}" class="btn-block play-loop">Play</button>
             </div>
             <h3>{{this.nameOfLoop}}</h3>
         </div>

@@ -50,6 +50,7 @@ $(function(){
         }
 
         if(typeof datas.sound !== "undefined"){
+            console.log(datas.sound);
             playSound(datas.sound);
         }
 
@@ -92,6 +93,31 @@ $(function(){
 
         }
 
+        // CreateSound for list loops
+
+        if(typeof datas.SoundsLoop !== "undefined"){
+
+            for(let objects in datas.SoundsLoop){
+
+                for(let kindOfObj in datas.SoundsLoop[objects]) {
+
+                    if (typeof sounds.sources[kindOfObj.toLowerCase()] == "undefined") {
+                        sounds.sources[kindOfObj.toLowerCase()] = datas.SoundsLoop[objects];
+
+                        // firebase storage call for url
+
+                        soundsRef.child(datas.SoundsLoop[objects][kindOfObj].path).getDownloadURL().then(function (url) {
+                            sounds.audioObjects[kindOfObj.toLowerCase()] = new Audio(url);
+                        });
+                    }
+
+                }
+
+            }
+
+        }
+
+
         if(typeof datas.loopToSave !== "undefined"){
             newUser.mapInObject = datas.loopToSave;
             newUser.setMap(1);
@@ -109,6 +135,7 @@ $(function(){
     // Play sound html5
 
     var playSound = function(link){
+        console.log(link);
         sounds.audioObjects[link.toLowerCase()].play();
     };
 
@@ -215,6 +242,15 @@ $(function(){
             createUser();
             $(".create-own").hide();
         });
+
+        $(".play-loop").off().on("click", function(e){
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            let idLoop = ($(this).attr("id")).split("-")[1];
+            myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
+        });
     };
 
     // User Class
@@ -308,23 +344,29 @@ $(function(){
 
     let looplist = $("#loops-list").html();
     let appendloop = $("#append-loop").html();
-    let loops;
+    let loops = [];
 
     // Database onload
 
-    database.child("loops/").on("value", function(snap){
-
-        if(typeof loops == "undefined") {
-            loops = snap.val();
-            handlebarsList();
-        }
-
-    });
+    //database.child("loops/").on("value", function(snap){
+    //
+    //    if(typeof loops == "undefined") {
+    //        loops = snap.val();
+    //        handlebarsList();
+    //    }
+    //
+    //});
 
     // Database on_child_added
 
+    let incrementLoop = 0;
+
     database.child("loops/").on("child_added", function(snap){
-        handlebarsUpdateList(snap.val());
+        let datas = snap.val();
+        loops.push(datas);
+
+        datas.idLoop = incrementLoop++;
+        handlebarsUpdateList(datas);
     });
 
 
@@ -342,6 +384,7 @@ $(function(){
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
         $('#all_loops .row').prepend(theCompiledHtml);
+        afterListLoad();
     };
 
 
