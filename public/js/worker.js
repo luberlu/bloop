@@ -110,6 +110,7 @@ class Drum extends Inst {
 
 class Player{
     constructor(bpm, barsNbr, Inst, loop){
+        this.name = "Loop Random";
         this.bpm = bpm;
         this.barsNbr = barsNbr;
         this.onPlay = null;
@@ -211,6 +212,10 @@ class Player{
         }
     }
 
+    set SetName (name){
+        this.name = name;
+    }
+
     set onPlay (action){
 
         let that = this;
@@ -291,6 +296,10 @@ onmessage = function(e){
 
     if(typeof datas.bpm !== "undefined"){
         myplayer.SetBpm = datas.bpm;
+    }
+
+    if(typeof datas.nameLoop !== "undefined"){
+        myplayer.SetName = datas.nameLoop;
     }
 
     if(typeof datas.instChange !== "undefined"){

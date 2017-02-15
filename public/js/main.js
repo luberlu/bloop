@@ -142,11 +142,10 @@ $(function(){
 
     // variables
 
-    let drummachine = $("#machine");
     let playbtn = $("#play");
     let stopbtn = $("#stop");
     let bpmInput = $("#bpm");
-
+    let nameInput = $("#nameLoop");
 
     // DOM Functions
 
@@ -221,14 +220,10 @@ $(function(){
         myworker.postMessage({bpm: bpm});
     });
 
-    $("#createUser").click(function(){
-        createUser();
+    nameInput.on("change paste keyup", function(){
+        name = $(this).val();
+        myworker.postMessage({nameLoop: name});
     });
-
-    $("#saveMap").click(function(){
-        myworker.postMessage({saveAction: true});
-    });
-
 
     let afterCreateObjDom = function() {
 
@@ -248,6 +243,17 @@ $(function(){
         $("#createUser").click(function(){
             createUser();
             $(".create-own").hide();
+            $("#machineSection").slideDown();
+            $(".jumbotron").hide();
+        });
+
+        $("#saveMap").click(function(){
+            myworker.postMessage({saveAction: true});
+
+            $(".create-own").show();
+            $("#machineSection").slideUp();
+            $(".jumbotron").show();
+
         });
 
         $(".play-loop").off().on("click", function(e){
@@ -315,14 +321,14 @@ $(function(){
         setMap(id){
 
             database.child("users/" + this.uid + "/loops/" + id).set({
-                nameOfLoop: "Dubstep sa mère",
+                nameOfLoop: this.maps[0].name,
                 kit: this.maps
             });
 
             database.child("loops/").push({
                 uid: this.uid,
                 id_loop: id,
-                nameOfLoop: "Dubstep sa mère",
+                nameOfLoop: this.maps[0].name,
                 kit: this.maps
             });
 
@@ -375,7 +381,7 @@ $(function(){
 
     let incrementLoop = 0;
 
-    database.child("loops/").on("child_added", function(snap){
+    database.child("loops/").limitToLast(7).on("child_added", function(snap){
         let datas = snap.val();
         loops.push(datas);
 

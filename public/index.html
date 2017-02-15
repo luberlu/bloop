@@ -50,9 +50,13 @@
     </div>
 </nav>
 
+<section id="masthead" class="row">
+    <h1 class="text-center">Make funny loops</h1>
+</section>
+
 <main class="container-fluid">
-    <section id="masthead" class="jumbotron row">
-        <h1 class="text-center">bloop app</h1>
+
+    <section id="loopsSection" class="jumbotron row">
         <section id="all_loops">
             <div class="row">
 
@@ -65,14 +69,27 @@
             </div>
         </section>
     </section>
-    <section id="informations" class="jumbotron row">
+    <section id="machineSection" class="row" style="display: none">
         <div id="machine">
             <header id="control-machine">
                 <button id="play">play</button>
                 <button id="stop">stop</button>
+
                 <label for="bpm">BPM</label>
-                <button id="saveMap">Save my loop</button>
                 <input type="text" id="bpm" name="bpm" value="120">
+                <br /><br>
+
+                <label>Bars numbers</label>
+                <select>
+                    <option value="16">16</option>
+                    <option value="32">32</option>
+                </select>
+                <br /><br>
+
+                <label for="nameLoop">Put a name on that!</label>
+                <input type="text" id="nameLoop" name="nameLoop" value="name of the loop">
+
+                <button id="saveMap">Save my loop</button>
                 <div id="bar"></div>
             </header>
             <form id='playerMachine'>
@@ -84,7 +101,7 @@
 
 
 <script id="append-loop" type="text/x-handlebars-template">
-    <div id="list-loop-{{this.idLoop}}" class="col-lg-2 col-sm-3 col-xs-12 list-loop OFF">
+    <div id="list-loop-{{this.idLoop}}" class="col-lg-3 col-sm-3 col-xs-12 list-loop OFF">
         <div class="inside-col">
             <div class="progress-bar {{this.kit.0.barsNbr}}">
                 {{#bar this.kit.0.barsNbr}}
