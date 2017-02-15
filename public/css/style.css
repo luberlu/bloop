@@ -66,7 +66,7 @@ fieldset > label:nth-child(1) {
     transition: all 0.7s ease;
 }
 
-button#createUser, button#createUser-masthead {
+button#createUser, button#createUser-masthead, button#createBeat {
 
     background: #337ab7;
     color: white;
@@ -77,13 +77,17 @@ button#createUser, button#createUser-masthead {
     font-size: 17px;
 }
 
-button#createUser {
+button#createUser, button#createBeat {
     display: none;
     left: 50%;
     margin-left: -81px;
     top: 50%;
     margin-top: -33px;
     position: absolute;
+}
+
+button#createBeat {
+    margin-left: -48px;
 }
 
 
@@ -107,45 +111,13 @@ section#all_loops .row > div {
     -webkit-font-smoothing: subpixel-antialiased;
 }
 
-section#all_loops .row > div:hover button#createUser {
+section#all_loops .row > div:hover button#createUser,
+section#all_loops .row > div:hover button#createBeat{
     display: block;
-}
-
-/*section#all_loops .row > div:nth-child(1){*/
-    /*animation-delay: 0s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(2){*/
-    /*animation-delay: 1s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(3){*/
-    /*animation-delay: 2s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(4){*/
-    /*animation-delay: 3s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(5){*/
-    /*animation-delay: 4s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(6){*/
-    /*animation-delay: 7s;*/
-/*}*/
-
-/*section#all_loops .row > div:nth-child(7){*/
-    /*animation-delay: 8s;*/
-/*}*/
-
-section#all_loops .row > div:nth-child(8){
-    animation-delay: 2s;
 }
 
 section#all_loops .row > div:hover {
     transform: translateZ(0) scale(1.05);
-    /*transition: all 0.6s ease;*/
 }
 
 section#all_loops .row > div:hover button.play {
@@ -161,7 +133,7 @@ section#all_loops .row > div:hover button.play {
 }
 
 .create-own {
-    display: none;
+    display: block;
 }
 
 .create-own .inside-col {
@@ -287,10 +259,9 @@ section#machineSection {
 }
 
 section#masthead {
-    height: 665px;
-    background: url();
     background-color: #0bf997;
     color: white;
+    padding-bottom: 110px;
 }
 
 section#masthead h1 {

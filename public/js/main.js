@@ -121,7 +121,7 @@ $(function(){
         if(typeof datas.loopToSave !== "undefined"){
 
             newUser.mapInObject = datas.loopToSave;
-            newUser.setMap(1);
+            newUser.setMap();
 
             displayMachine(false);
         }
@@ -312,7 +312,8 @@ $(function(){
             this.uid = uid;
             this.token = token;
             this.userInfos = user;
-            this.authData = null;
+            this.id_loop = 0;
+            this.currentIdLoopDatabase = null;
             this.maps = [];
             this._checkIfAlreadyExist();
         }
@@ -331,26 +332,38 @@ $(function(){
                 if(!exists){
                     that._createUserToDatabase();
                 } else {
-                    console.log("User already exist");
+                    if(typeof snap.val().loops !== "undefined")
+                        that.currentIdLoopDatabase = snap.val().loops.length;
                 }
 
             });
 
         }
 
-        setMap(id){
+        setMap(){
 
-            database.child("users/" + this.uid + "/loops/" + id).set({
-                nameOfLoop: this.maps[0].name,
-                kit: this.maps
+            let id_push;
+
+            if(this.currentIdLoopDatabase !== null) {
+                id_push = this.currentIdLoopDatabase;
+                this.currentIdLoopDatabase++;
+            } else {
+                id_push = this.id_loop;
+            }
+
+            database.child("users/" + this.uid + "/loops/" + id_push).set({
+                nameOfLoop: this.maps[this.id_loop].name,
+                kit: this.maps[this.id_loop]
             });
 
             database.child("loops/").push({
                 uid: this.uid,
-                id_loop: id,
-                nameOfLoop: this.maps[0].name,
-                kit: this.maps
+                id_loop: id_push,
+                nameOfLoop: this.maps[this.id_loop].name,
+                kit: this.maps[this.id_loop]
             });
+
+            this.id_loop++;
 
         }
 
@@ -363,6 +376,16 @@ $(function(){
 
         }
     }
+
+    let changeButtonCreate = function(){
+        $("#createUser").remove();
+        $(".create-own .inside-col").append("<button id='createBeat'>Lets Go!</button>");
+
+        $("#createBeat").click(function(){
+            displayMachine(true);
+        });
+    };
+
 
     // Firebase functions (auth, database etc..)
 
@@ -380,6 +403,7 @@ $(function(){
             newUser = new User(uid, token, user);
 
             displayMachine(true);
+            changeButtonCreate();
 
 
         }).catch(function(error) {
