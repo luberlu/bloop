@@ -58,6 +58,7 @@
 
     <section id="loopsSection" class="jumbotron row">
         <section id="all_loops">
+            <h3>Last loops</h3>
             <div class="row">
 
                 <div class="create-own col-lg-3 col-sm-3 col-xs-12">
@@ -79,8 +80,8 @@
                 <input type="text" id="bpm" name="bpm" value="120">
                 <br /><br>
 
-                <label>Bars numbers</label>
-                <select>
+                <label for="bars">Bars numbers</label>
+                <select id="bars">
                     <option value="16">16</option>
                     <option value="32">32</option>
                 </select>
@@ -109,12 +110,15 @@
                 {{/bar}}
             </div>
             <div class="img-loop">
-                <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
-                     class="img-circle img-responsive"
-                     alt="Cinque Terre">
-                <button id="play-{{this.idLoop}}" class="btn-block play-loop OFF">Play</button>
+                <div class="block-play">
+                    <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
+                         class="img-circle img-responsive"
+                         alt="Cinque Terre">
+                    <button id="play-{{this.idLoop}}" class="btn-block play-loop OFF">Play</button>
+                </div>
             </div>
             <h3>{{this.nameOfLoop}}</h3>
+            <h4>{{this.kit.0.barsNbr}} bars</h4>
         </div>
     </div>
 </script>

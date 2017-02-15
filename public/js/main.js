@@ -119,8 +119,11 @@ $(function(){
 
 
         if(typeof datas.loopToSave !== "undefined"){
+
             newUser.mapInObject = datas.loopToSave;
             newUser.setMap(1);
+
+            displayMachine(false);
         }
     };
 
@@ -226,19 +229,11 @@ $(function(){
     });
 
     $("#createUser").click(function(){
-            createUser();
-        $(".create-own").hide();
-        $("#machineSection").slideDown();
-        $(".jumbotron").hide();
+        createUser();
     });
 
     $("#saveMap").click(function(){
         myworker.postMessage({saveAction: true});
-
-        $(".create-own").show();
-        $("#machineSection").slideUp();
-        $(".jumbotron").show();
-
     });
 
     let afterCreateObjDom = function() {
@@ -286,6 +281,24 @@ $(function(){
         });
     };
 
+    let displayMachine = function(action){
+
+        if(action) {
+
+            $(".create-own").hide();
+            $("#machineSection").slideDown();
+            $(".jumbotron").hide();
+
+        } else if(!action){
+
+            $(".create-own").show();
+            $("#machineSection").slideUp();
+            $(".jumbotron").show();
+
+        }
+
+    };
+
     // User Class
 
     class User {
@@ -294,6 +307,7 @@ $(function(){
             this.uid = uid;
             this.token = token;
             this.userInfos = user;
+            this.authData = null;
             this.maps = [];
             this._checkIfAlreadyExist();
         }
@@ -335,12 +349,36 @@ $(function(){
 
         }
 
+        // _getName() {
+        //
+        //     switch(this.authData.provider) {
+        //         case 'password':
+        //             return this.authData.password.email.replace(/@.*/, '');
+        //         case 'twitter':
+        //             return this.authData.twitter.displayName;
+        //         case 'facebook':
+        //             return this.authData.facebook.displayName;
+        //     }
+        // }
+
         _createUserToDatabase(){
 
             database.child("users/" + this.uid).set({
                 email: this.userInfos.email,
                 token: this.token
             });
+
+            // database.onAuth(function(authData) {
+            //
+            //     this.authData = authData;
+            //
+            //     if (authData) {
+            //         ref.child("users").child(authData.uid).set({
+            //             provider: authData.provider,
+            //             name: this._getName()
+            //         });
+            //     }
+            // });
         }
     }
 
@@ -348,8 +386,6 @@ $(function(){
 
 
     var createUser = function(){
-
-        console.log("nice");
 
         let provider = new firebase.auth.GoogleAuthProvider();
 
@@ -360,7 +396,9 @@ $(function(){
             let uid = result.user.uid;
 
             newUser = new User(uid, token, user);
-            console.log(newUser);
+
+            displayMachine(true);
+
 
         }).catch(function(error) {
             var errorCode = error.code;

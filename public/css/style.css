@@ -19,6 +19,10 @@ div#bar {
     background: aquamarine;
 }
 
+h3 {
+    margin-bottom: 29px;
+}
+
 div#bar div {
     display: inline-block;
     height: 100%;
@@ -117,7 +121,7 @@ section#all_loops .row > div:nth-child(8){
 }
 
 section#all_loops .row > div:hover {
-    /*transform: translateZ(0) scale(1.15);*/
+    transform: translateZ(0) scale(1.05);
     /*transition: all 0.6s ease;*/
 }
 
@@ -132,18 +136,29 @@ section#all_loops .row > div:hover button.play {
     display: block;
 }
 
+.create-own .inside-col {
+    background: #0bf997;
+}
+
 .inside-col h3 {
     margin: 0;
     padding: 0;
     text-align: center;
     color: #337ab7;
-    font-size: 17px;
+    margin-bottom: 16px;
+    font-size: 21px;
+}
+
+.inside-col h4 {
+    text-align: center;
+    color: burlywood;
+    font-weight: 200;
 }
 
 .progress-bar {
     float: left;
     width: 100%;
-    height: 7px;
+    height: 11px;
     display: block;
     position: relative;
 }
@@ -151,7 +166,7 @@ section#all_loops .row > div:hover button.play {
 .progress-bar span {
     display: block;
     float: left;
-    height: 7px;
+    height: 100%;
 }
 
 .progress-bar span.on {
@@ -160,6 +175,11 @@ section#all_loops .row > div:hover button.play {
 
 .img-loop {
     padding: 22%;
+    padding-bottom: 8%;
+    position: relative;
+}
+
+.block-play {
     position: relative;
 }
 
@@ -172,6 +192,38 @@ button.play {
     height: 50px;
     margin-top: -25px;
     margin-left: -25px;
+}
+
+.play-loop {
+    position: absolute;
+    outline: none;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+    text-indent: -99999px;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+}
+
+
+section#all_loops .row > div:hover .play-loop.OFF{
+    display: block;
+    background-image: url("../img/play-button.svg");
+}
+
+section#all_loops .row > div:hover .play-loop.ON{
+    display: block;
+    background-image: url("../img/stop-button.svg");
+}
+
+section#all_loops .row > div:hover .img-circle {
+    opacity: 0.2;
 }
 
 .create-own h3 {
