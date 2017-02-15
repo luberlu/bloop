@@ -50,7 +50,6 @@ $(function(){
         }
 
         if(typeof datas.sound !== "undefined"){
-            console.log(datas.sound);
             playSound(datas.sound);
         }
 
@@ -135,7 +134,6 @@ $(function(){
     // Play sound html5
 
     var playSound = function(link){
-        console.log(link);
         sounds.audioObjects[link.toLowerCase()].play();
     };
 
@@ -249,7 +247,15 @@ $(function(){
             e.stopPropagation();
 
             let idLoop = ($(this).attr("id")).split("-")[1];
-            myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
+
+            if($(this).hasClass("OFF")) {
+                myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
+                $(this).removeClass("OFF").addClass("ON");
+
+            } else {
+                myworker.postMessage({playloop: false});
+                $(this).removeClass("ON").addClass("OFF");
+            }
         });
     };
 
@@ -373,7 +379,6 @@ $(function(){
     // Handlebars
 
     let handlebarsList = function(){
-        console.log(loops);
         let template = Handlebars.compile(looplist);
         let theCompiledHtml = template(loops);
         $('#all_loops').html(theCompiledHtml);

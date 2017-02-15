@@ -190,8 +190,6 @@ class Player{
 
                 if(typedatas == bpmCount) {
 
-                    console.log(this.map[type]);
-
                     if (this.map[type][typedatas] == 1) {
                         postMessage({sound: this._returnLinkActivatedInKit(type)});
                     }
@@ -269,6 +267,10 @@ let init = function(bpm, barsNbr){
 
 };
 
+let map;
+let drumloop;
+let playerloop;
+
 
 // Every call main message (Postmessage)
 
@@ -301,18 +303,24 @@ onmessage = function(e){
     if(typeof datas.playloop !== "undefined"){
         if(datas.playloop == true){
 
-            let map = datas.loopDatas.kit[0].map;
+            if(typeof playerloop !== "undefined")
+                playerloop.onPlay = false;
 
-            let drumloop = new Drum(datas.loopDatas.kit[0].inst.kit,
+            map = datas.loopDatas.kit[0].map;
+
+            drumloop = new Drum(datas.loopDatas.kit[0].inst.kit,
                                     datas.loopDatas.kit[0].inst.name);
 
-            let playerloop = new Player(datas.loopDatas.kit[0].bpm,
+            playerloop = new Player(datas.loopDatas.kit[0].bpm,
                                         datas.loopDatas.kit[0].barsNbr,
                                         drumloop, map);
 
             postMessage({SoundsLoop: drumloop.returnAllSounds()});
 
             playerloop.onPlay = true;
+
+        } else if (datas.playloop == false){
+            playerloop.onPlay = false;
         }
     }
 
