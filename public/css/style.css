@@ -96,6 +96,17 @@ section#all_loops .row > div:hover button.play {
     float: left;
     width: 100%;
     height: 7px;
+    display: block;
+    position: relative;
+}
+
+.progress-bar span {
+    display: inline-block;
+    height: 7px;
+}
+
+.progress-bar span.on {
+    background: brown;
 }
 
 .img-loop {

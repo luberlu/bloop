@@ -84,9 +84,13 @@
 
 
 <script id="append-loop" type="text/x-handlebars-template">
-    <div id="list-loop-{{this.idLoop}}" class="col-lg-3 col-sm-3 col-xs-12">
+    <div id="list-loop-{{this.idLoop}}" class="col-lg-2 col-sm-3 col-xs-12 list-loop OFF">
         <div class="inside-col">
-            <div class="progress-bar"></div>
+            <div class="progress-bar {{this.kit.0.barsNbr}}">
+                {{#bar this.kit.0.barsNbr}}
+                    <span id="{{this.i}}" style="width: calc(100%/{{this.n}}); "></span>
+                {{/bar}}
+            </div>
             <div class="img-loop">
                 <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
                      class="img-circle img-responsive"

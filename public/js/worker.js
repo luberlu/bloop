@@ -119,10 +119,14 @@ class Player{
         this.inst = Inst;
         this.map = {};
 
-        if(typeof loop == "undefined")
+        if(typeof loop == "undefined") {
             this._createMapping();
-        else
+            this.type = "myloop";
+        } else {
             this._createMappingWithMapLoop(loop);
+            this.type = "loopOnList";
+        }
+
     }
 
     _createMapping(){
@@ -233,7 +237,7 @@ class Player{
                     that._playFunction();
                     that.bpmCounter();
 
-                    scope.postMessage({bpmCount: that.bpmCount});
+                    scope.postMessage({bpmCount: that.bpmCount, bpmWhat: that.type});
 
                 }, (60000 / that.bpm));
 

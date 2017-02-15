@@ -46,7 +46,8 @@ $(function(){
         }
 
         if(typeof datas.bpmCount !== "undefined"){
-            displayBpm(datas.bpmCount)
+
+            displayBpm(datas.bpmWhat, datas.bpmCount)
         }
 
         if(typeof datas.sound !== "undefined"){
@@ -191,10 +192,18 @@ $(function(){
 
     };
 
-    let displayBpm = function(BpmCounter){
+    let displayBpm = function(what, BpmCounter){
 
-        $(".steps").removeClass("on");
-        $("#step_" + (BpmCounter - 1)).addClass("on");
+        if(what == "myloop") {
+
+            $(".steps").removeClass("on");
+            $("#step_" + (BpmCounter - 1)).addClass("on");
+
+        } else {
+            $('#all_loops .ON .progress-bar span').removeClass('on');
+            $('#all_loops .ON .progress-bar #' + (BpmCounter - 1)).addClass("on");
+        }
+
     };
 
     // Interactions (clicks, keyboard..)
@@ -249,11 +258,22 @@ $(function(){
             let idLoop = ($(this).attr("id")).split("-")[1];
 
             if($(this).hasClass("OFF")) {
+
                 myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
+
+                $(".list-loop").removeClass("ON").addClass("OFF");
+                $(".play-loop").removeClass("ON").addClass("OFF");
+
+                $(this).closest(".list-loop").removeClass("OFF").addClass("ON");
                 $(this).removeClass("OFF").addClass("ON");
 
             } else {
                 myworker.postMessage({playloop: false});
+
+                $(".list-loop").removeClass("ON").addClass("OFF");
+                $(".play-loop").removeClass("ON").addClass("OFF");
+
+                $(this).closest(".list-loop").removeClass("ON").addClass("OFF");
                 $(this).removeClass("ON").addClass("OFF");
             }
         });
@@ -348,20 +368,8 @@ $(function(){
 
     };
 
-    let looplist = $("#loops-list").html();
     let appendloop = $("#append-loop").html();
     let loops = [];
-
-    // Database onload
-
-    //database.child("loops/").on("value", function(snap){
-    //
-    //    if(typeof loops == "undefined") {
-    //        loops = snap.val();
-    //        handlebarsList();
-    //    }
-    //
-    //});
 
     // Database on_child_added
 
@@ -378,19 +386,21 @@ $(function(){
 
     // Handlebars
 
-    let handlebarsList = function(){
-        let template = Handlebars.compile(looplist);
-        let theCompiledHtml = template(loops);
-        $('#all_loops').html(theCompiledHtml);
-        afterListLoad();
-    };
-
     let handlebarsUpdateList = function(loop){
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
         $('#all_loops .row').prepend(theCompiledHtml);
         afterListLoad();
     };
+
+    // Handlebars Bar Helper
+
+    Handlebars.registerHelper('bar', function(n, block) {
+        let accum = '';
+        for(var i = 0; i < n; ++i)
+            accum += block.fn({i: i, n: n});
+        return accum;
+    });
 
 
 });
