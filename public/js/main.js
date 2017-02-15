@@ -225,6 +225,22 @@ $(function(){
         myworker.postMessage({nameLoop: name});
     });
 
+    $("#createUser").click(function(){
+            createUser();
+        $(".create-own").hide();
+        $("#machineSection").slideDown();
+        $(".jumbotron").hide();
+    });
+
+    $("#saveMap").click(function(){
+        myworker.postMessage({saveAction: true});
+
+        $(".create-own").show();
+        $("#machineSection").slideUp();
+        $(".jumbotron").show();
+
+    });
+
     let afterCreateObjDom = function() {
 
         $('#playerMachine :input').change(function (e) {
@@ -240,21 +256,6 @@ $(function(){
 
     let afterListLoad = function(){
 
-        $("#createUser").click(function(){
-            createUser();
-            $(".create-own").hide();
-            $("#machineSection").slideDown();
-            $(".jumbotron").hide();
-        });
-
-        $("#saveMap").click(function(){
-            myworker.postMessage({saveAction: true});
-
-            $(".create-own").show();
-            $("#machineSection").slideUp();
-            $(".jumbotron").show();
-
-        });
 
         $(".play-loop").off().on("click", function(e){
 
@@ -347,6 +348,8 @@ $(function(){
 
 
     var createUser = function(){
+
+        console.log("nice");
 
         let provider = new firebase.auth.GoogleAuthProvider();
 
