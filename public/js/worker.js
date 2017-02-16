@@ -319,13 +319,15 @@ onmessage = function(e){
             if(typeof playerloop !== "undefined")
                 playerloop.onPlay = false;
 
-            map = datas.loopDatas.kit[0].map;
+            console.log(datas.loopDatas);
 
-            drumloop = new Drum(datas.loopDatas.kit[0].inst.kit,
-                                    datas.loopDatas.kit[0].inst.name);
+            map = datas.loopDatas.kit.map;
 
-            playerloop = new Player(datas.loopDatas.kit[0].bpm,
-                                        datas.loopDatas.kit[0].barsNbr,
+            drumloop = new Drum(datas.loopDatas.kit.inst.kit,
+                                    datas.loopDatas.kit.inst.name);
+
+            playerloop = new Player(datas.loopDatas.kit.bpm,
+                                        datas.loopDatas.kit.barsNbr,
                                         drumloop, map);
 
             postMessage({SoundsLoop: drumloop.returnAllSounds()});
