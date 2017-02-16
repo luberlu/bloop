@@ -2,57 +2,62 @@
 
 let scope = self;
 
+let mydrum;
+let map;
+let drumloop;
+let playerloop;
+
 // DrumKit contain differents sounds for kicks, snares..
 // Could be possible to add sounds with upload feature
 
 let DrumKit = {
     kicks: {
         "Kick01": {
-            path: "kick/kick01.wav",
+            path: "default/kick/kick01.wav",
             activated: false
         },
         "Kick02": {
-            path: "kick/kick02.wav",
+            path: "default/kick/kick02.wav",
             activated: true
         }
     },
     snares: {
         "Snare01": {
-            path:"snare/snare01.wav",
+            path:"default/snare/snare01.wav",
             activated: false
         },
         "Snare02": {
-            path: "snare/snare02.wav",
+            path: "default/snare/snare02.wav",
             activated: true
         }
     },
     hihats: {
         "Hi-hat01": {
-            path: "hi-hat/hi-hat01.wav",
+            path: "default/hi-hat/hi-hat01.wav",
             activated: true
         },
         "Hi-hat02": {
-            path: "hi-hat/hi-hat02.wav",
+            path: "default/hi-hat/hi-hat02.wav",
             activated: false
         }
     },
     percs: {
         "Perc01": {
-            path: "perc/perc01.wav",
+            path: "default/perc/perc01.wav",
             activated: true
         },
         "Perc02": {
-            path: "perc/perc02.wav",
+            path: "default/perc/perc02.wav",
             activated: false
         }
     },
     fx: {
         "FX01": {
-            path: "fx/fx01.wav",
+            path: "default/fx/fx01.wav",
             activated: false
         },
         "FX02": {
-            path: "fx/fx02.wav",
+            path: "default/fx/fx02.wav",
             activated: true
         }
     }
@@ -68,17 +73,16 @@ class Inst {
         this.name = name;
     }
 
-    addSound(type, name, path){
 
-        if(!this._AlreadyExist(type, name)) {
-            this.kit[type][name] = {
-                path: path
-            };
-            return true
-        }
+    addSoundToKit(sound){
 
-        else
-            return "Oops! Change the name already exist"
+        this.kit[sound.name] = [];
+        this.kit[sound.name][sound.name] = {
+            path: sound.path,
+            activated: true
+        };
+
+        return this.kit[sound.name];
 
     }
 
@@ -86,12 +90,6 @@ class Inst {
         return this.kit;
     }
 
-    _AlreadyExist(type, name){ let exist;
-
-        (typeof this.kit[type][name] !== "undefined") ? exist = true : exist = false;
-
-        return exist;
-    }
 
 }
 
@@ -182,10 +180,6 @@ class Player{
         }
     }
 
-    _intervalStart(){
-
-    }
-
     _playFunction(){
         let bpmCount = this.bpmCount;
 
@@ -225,15 +219,11 @@ class Player{
             if(action == true) {
 
                 if(typeof this.intervalPlayer !== null){
-                    clearInterval(this.intervalPlayer);
 
                     this.bpmCount = 1;
                     clearInterval(this.intervalBPM);
                 }
 
-                this.intervalPlayer = setInterval(function(){
-                    that._intervalStart();
-                }, 10);
 
                 // 60,000 ms (1 minute) / Tempo (BPM) = Delay Time in ms for quarter-note beats
 
@@ -268,17 +258,13 @@ class Player{
 
 let init = function(bpm, barsNbr){
 
-    let mydrum = new Drum(DrumKit, "Drum");
+    mydrum = new Drum(DrumKit, "Drum");
     myplayer = new Player(bpm, barsNbr, mydrum);
 
-    postMessage({drum: mydrum.kit});
+    postMessage({drum: mydrum.kit, added: false});
     postMessage({defaultSounds: mydrum.returnAllSounds()});
 
 };
-
-let map;
-let drumloop;
-let playerloop;
 
 
 // Every call main message (Postmessage)
@@ -308,6 +294,12 @@ onmessage = function(e){
 
     if(typeof datas.saveAction !== "undefined"){
         postMessage({loopToSave: myplayer});
+    }
+
+    if(typeof datas.newSound !== "undefined"){
+        let newAddedObj = mydrum.addSoundToKit(datas.newSound);
+        postMessage({defaultSounds: mydrum.returnAllSounds()});
+        postMessage({drum: newAddedObj, added: true});
     }
 
 
