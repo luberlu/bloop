@@ -101,6 +101,7 @@ button#createBeat {
 }
 
 section#all_loops .row > div {
+
     position: relative;
     margin-bottom: 25px;
     animation: appear 2s ease;
