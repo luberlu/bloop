@@ -1,9 +1,13 @@
 .navbar-default .navbar-brand,  .navbar-default .navbar-brand:hover{
     color: #fff;
     background: #0BF997;
+    height: 61px;
 }
 
-.navbar-default { border: none; }
+.navbar-default {
+    border: none;
+    border-bottom: solid 5px #0bf997;
+}
 
 a.navbar-brand {
     padding: 0;
@@ -13,12 +17,21 @@ a.navbar-brand img {
     height: 100%;
 }
 
+
+.navbar-default .navbar-nav>li>a {
+    line-height: 31px;
+    color: #333;
+    padding: 15px 30px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
 div#bar {
     display: block;
     height: 26px;
     margin-top: 16px;
     width: 100%;
-    background: aquamarine;
+    background: rgba(11, 249, 151, 0.15);
 }
 
 h3 {
@@ -43,13 +56,13 @@ div#bar div {
 
     width: 100%;
     height: 55px;
-    background: aquamarine;
+    background: rgba(11, 249, 151, 0.15);
     border: solid 1px white;
     transition: all 0.3s ease;
 }
 
 #playerMachine input[type=checkbox]:checked {
-    background: bisque;
+    background: rgba(11, 249, 151, 1);
     transition: all 0.3s ease;
 }
 
@@ -62,22 +75,28 @@ fieldset > label:nth-child(1) {
 }
 
 .steps.on {
-    background: darkcyan;
+    background: rgba(11, 249, 151, 1);
     transition: all 0.7s ease;
 }
 
-button#createUser, button#createUser-masthead, button#createBeat {
+.button-app {
 
-    background: #337ab7;
+    background: #4fa3ea;
     color: white;
     text-align: center;
     border: none;
     padding: 13px;
     border-radius: 12px;
     font-size: 17px;
+    font-weight: 500;
 }
 
-button#createUser, button#createBeat {
+.button-app:hover {
+    background: #005aa7;
+}
+
+button#createUser,
+button#createBeat {
     display: none;
     left: 50%;
     margin-left: -81px;
@@ -118,7 +137,7 @@ section#all_loops .row > div:hover button#createBeat{
 }
 
 section#all_loops .row > div:hover {
-    transform: translateZ(0) scale(1.05);
+    transform: translateY(-10px);
 }
 
 section#all_loops .row > div:hover button.play {
@@ -151,7 +170,7 @@ section#all_loops .row > div:hover button.play {
     margin: 0;
     padding: 0;
     text-align: center;
-    color: #337ab7;
+    color: #4fa3ea;
     margin-bottom: 16px;
     font-size: 21px;
 }
@@ -172,11 +191,13 @@ section#all_loops .row > div:hover button.play {
 }
 
 .progress-bar {
+    background: rgb(226, 226, 226);
     float: left;
     width: 100%;
     height: 11px;
     display: block;
     position: relative;
+    box-shadow: none;
 }
 
 .progress-bar span {
@@ -186,7 +207,7 @@ section#all_loops .row > div:hover button.play {
 }
 
 .progress-bar span.on {
-    background: #0bf997;
+    background: #4fa3ea;
 }
 
 .img-loop {
@@ -255,14 +276,19 @@ section#machineSection {
     left: 0;
     width: 100%;
     height: 100%;
+    margin: 0;
     padding: 8%;
+    margin-top: 31px;
     background: #f8f8f8;
 }
 
 section#masthead {
     background-color: #0bf997;
     color: white;
+    overflow: hidden;
     padding-bottom: 110px;
+    width: 100%;
+    margin: 0;
 }
 
 section#masthead h1 {
@@ -273,6 +299,34 @@ section#masthead p {
     margin-top: 33px;
 }
 
+.google-connect.text-center {
+    margin-top: 26px;
+}
+
 section#masthead .img-masthead {
-    margin-top: 67px;
+    margin-top: 91px;
+}
+
+div#connexion {
+    float: right;
+    height: 100%;
+    display: block;
+    margin-top: 5px;
+}
+
+div#connexion p {
+    margin: 0;
+}
+
+div#connect p img,
+div#connect span {
+    float: left;
+}
+
+div#connect span {
+    padding-top: 15px;
+    padding-left: 14px;
+    font-weight: 500;
+    font-size: 16px;
+
 }

@@ -10,7 +10,7 @@
 
     <meta name="robots" content="noindex">
     <meta name="googlebot" content="noindex">
-    
+
 </head>
 <body>
 
@@ -30,26 +30,12 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#loopsSection">Loops</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
-                    </ul>
-                </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="../navbar/">Default</a></li>
-                <li><a href="../navbar-static-top/">Static top</a></li>
-                <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-            </ul>
+            <div id="connexion">
+                <button class="button-app" id="createUser-top">Make your beat ></button>
+            </div>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
@@ -61,9 +47,10 @@
     <h1 class="text-center">Make funny loops with Bloop</h1>
     <h2 class="text-center">Upload your sounds to the Drum Machine and become the best <span class="blooper-word">Blooper</span></h2>
 
-    <p class="text-center">
-    <button id="createUser-masthead">Try with google account ></button>
-    </p>
+    <div class="google-connect text-center">
+        <button class="button-app" id="createUser-masthead">Try with google account ></button>
+    </div>
+
 </section>
 
 <main class="container-fluid">
@@ -78,7 +65,7 @@
                         <img src="img/machine.svg" style="-webkit-filter: invert(100%);"/>
                         <h3>Create your own loop</h3>
 
-                        <button id="createUser">Google connect ></button>
+                        <button class="button-app" id="createUser">Google connect ></button>
                     </div>
                 </div>
             </div>
@@ -140,6 +127,15 @@
     </div>
 </script>
 
+<script id="connect-user" type="text/x-handlebars-template">
+    <div id="connect">
+        <p><img class="img-circle" src="{{this.img}}" with="50" height="50"><span>Hello {{this.name}}</span></p>
+    </div>
+</script>
+
+<script id="connect-user-master" type="text/x-handlebars-template">
+    <button class="button-app" id="makeSound">Let's go {{this.name}} ></button>
+</script>
 
 <script src="js/lib/jquery.js"></script>
 <script src="js/lib/bootstrap.min.js"></script>

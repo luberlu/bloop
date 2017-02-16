@@ -21,6 +21,8 @@ $(function() {
     let soundsRef = storageRef.child('sounds');
 
 
+    let newUser;
+
     // Create a worker
 
     let myworker = new Worker("js/worker.js");
@@ -254,13 +256,17 @@ $(function() {
         myworker.postMessage({nameLoop: name});
     });
 
-    $("#createUser, #createUser-masthead").click(function () {
+    $("#createUser, #createUser-masthead, #createUser-top").click(function () {
         createUser();
     });
 
     $("#saveMap").click(function () {
         myworker.postMessage({saveAction: true});
         myworker.postMessage({play: false});
+    });
+
+    $(".navbar-header").click(function(){
+        displayMachine(false);
     });
 
     let afterCreateObjDom = function () {
@@ -315,6 +321,7 @@ $(function() {
         });
     };
 
+
     let displayMachine = function (action) {
 
         if (action) {
@@ -340,6 +347,8 @@ $(function() {
         constructor(uid, token, user) {
             this.uid = uid;
             this.token = token;
+            this.name = user.displayName;
+            this.photo = user.photoURL;
             this.userInfos = user;
             this.id_loop = 0;
             this.currentIdLoopDatabase = null;
@@ -442,7 +451,7 @@ $(function() {
         $("#createUser").remove();
         $(".create-own .inside-col").append("<button id='createBeat'>Lets Go Again!</button>");
 
-        $("#createBeat").click(function () {
+        $("#createBeat, #makeSound").click(function () {
             displayMachine(true);
         });
     };
@@ -465,6 +474,7 @@ $(function() {
 
             displayMachine(true);
             changeButtonCreate();
+            handlebarsConnect(newUser);
 
             letUploads();
 
@@ -485,6 +495,9 @@ $(function() {
     };
 
     let appendloop = $("#append-loop").html();
+    let connexionBlock = $("#connect-user").html();
+    let connexionBlockMast = $("#connect-user-master").html();
+
     let loops = [];
 
     // Database on_child_added
@@ -522,6 +535,30 @@ $(function() {
             accum += block.fn({i: i, n: n});
         return accum;
     });
+
+
+    // Handlebars Connect block
+
+    let handlebarsConnect = function (user){
+
+        let template = Handlebars.compile(connexionBlock);
+        let template2 = Handlebars.compile(connexionBlockMast);
+
+        let connectBlock = {
+            connected: true,
+            name: user.name,
+            img: user.photo
+        };
+
+        let theCompiledHtml = template(connectBlock);
+        let theCompiledHtmlMast = template2(connectBlock);
+
+        $('#connexion').html(theCompiledHtml);
+        $('.google-connect').html(theCompiledHtmlMast);
+
+        //changeButtonCreate();
+
+    };
 
 
     // Upload new sounds to the drum machine
