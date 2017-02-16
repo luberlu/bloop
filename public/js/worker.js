@@ -319,8 +319,6 @@ onmessage = function(e){
             if(typeof playerloop !== "undefined")
                 playerloop.onPlay = false;
 
-            console.log(datas.loopDatas);
-
             map = datas.loopDatas.kit.map;
 
             drumloop = new Drum(datas.loopDatas.kit.inst.kit,
