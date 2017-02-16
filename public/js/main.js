@@ -86,9 +86,6 @@ $(function() {
                     if (typeof sounds.sources[kindOfObj.toLowerCase()] == "undefined") {
                         sounds.sources[kindOfObj.toLowerCase()] = datas.defaultSounds[objects];
 
-                        console.log(sounds.sources[kindOfObj.toLowerCase()]);
-                        console.log(datas.defaultSounds[objects][kindOfObj].path);
-
                         // firebase storage call for url
 
                         soundsRef.child(datas.defaultSounds[objects][kindOfObj].path).getDownloadURL().then(function (url) {
@@ -206,16 +203,14 @@ $(function() {
 
         let player = $("#playerMachine");
 
-        for (let inst in obj) {
-            player.append("<fieldset id='" + inst + "'><label>" + inst + "</label></fieldset>");
+        player.append("<fieldset id='" + obj.name + "'><label>" + obj.name + "</label></fieldset>");
 
-            let i = 1;
-            while (i < (barsNbr + 1)) {
-                $("fieldset#" + inst).append(constructBar(inst, i));
-                i++;
-            }
-
+        let i = 1;
+        while (i < (barsNbr + 1)) {
+            $("fieldset#" + obj.name).append(constructBar(obj.name, i));
+            i++;
         }
+
 
     };
 

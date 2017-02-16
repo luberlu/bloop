@@ -82,7 +82,7 @@ class Inst {
             activated: true
         };
 
-        return this.kit[sound.name];
+        return sound.name;
 
     }
 
@@ -131,6 +131,7 @@ class Player{
     _createMapping(){
 
         for (let type in this.inst.kit) {
+
             this.map[type] = {};
 
             for (let i = 1; i < this.barsNbr + 1; i++) {
@@ -141,6 +142,9 @@ class Player{
     }
 
     addToMapping(add){
+
+        this.map[add] = {};
+
         for (let i = 1; i < this.barsNbr + 1; i++) {
             this.map[add][i] = 0;
         }
@@ -305,13 +309,12 @@ onmessage = function(e){
     }
 
     if(typeof datas.newSound !== "undefined"){
+
         let newAddedObj = mydrum.addSoundToKit(datas.newSound);
+        myplayer.addToMapping(newAddedObj);
 
-        console.log(newAddedObj);
-
-        //myplayer.addToMapping(newAddedObj.name);
         postMessage({defaultSounds: mydrum.returnAllSounds()});
-        postMessage({drum: newAddedObj, added: true});
+        postMessage({drum: datas.newSound, added: true});
     }
 
 
