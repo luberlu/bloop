@@ -183,15 +183,16 @@ section#all_loops .row > div:hover button.play {
     text-align: center;
     color: burlywood;
     font-weight: 200;
+    margin-bottom: 4px;
 }
 
 .inside-col span.bpm {
-    position: absolute;
-    top: 8%;
     width: 100%;
     text-align: center;
     color: #30cc8b;
-    font-size: large;
+    display: block;
+    font-size: 19px;
+    margin-bottom: 15px;
 }
 
 .progress-bar {
@@ -214,9 +215,27 @@ section#all_loops .row > div:hover button.play {
     background: #4fa3ea;
 }
 
+.user-block.text-center {
+    padding-top: 24px;
+    margin-bottom: 27px;
+}
+
+.user-block {
+    width: 100%;
+    background: #f8f8f8;
+    padding-bottom: 4%;
+}
+
+.user-block span {
+    padding-left: 11px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 .img-loop {
     padding: 22%;
-    padding-bottom: 8%;
+    padding-bottom: 4%;
+    padding-top: 3%;
     position: relative;
 }
 
@@ -263,7 +282,7 @@ section#all_loops .row > div:hover .play-loop.ON{
     background-image: url("../img/stop-button.svg");
 }
 
-section#all_loops .row > div:hover .img-circle {
+section#all_loops .row > div:hover .block-play .img-circle {
     opacity: 0.2;
 }
 
@@ -281,9 +300,18 @@ section#machineSection {
     width: 100%;
     min-height: 100%;
     margin: 0;
-    padding: 8%;
-    padding-top: 10%;
     background: #f8f8f8;
+}
+
+header#control-machine {
+    background: #0bf997;
+    margin-top: 66px;
+}
+
+form#playerMachine {
+    padding: 10%;
+    padding-top: 5%;
+    padding-bottom: 0;
 }
 
 section#masthead {
@@ -333,4 +361,19 @@ div#connect span {
     font-weight: 500;
     font-size: 16px;
 
+}
+
+.bpm-block {
+    float: right;
+    font-size: 32px;
+    margin-top: 12px;
+    margin-right: 18px;
+}
+
+.bpm-block input {
+    width: 70px;
+    border: none;
+    background: none;
+    color: white;
+    outline: none;
 }

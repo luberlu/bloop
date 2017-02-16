@@ -396,6 +396,8 @@ $(function() {
 
             database.child("loops/").push({
                 uid: this.uid,
+                username: this.name,
+                userimg: this.photo,
                 id_loop: id_push,
                 nameOfLoop: this.maps[this.id_loop].name,
                 kit: this.maps[this.id_loop]
@@ -447,13 +449,23 @@ $(function() {
         }
     }
 
+    // A transformer avec handlebars
+
     let changeButtonCreate = function () {
+
         $("#createUser").remove();
-        $(".create-own .inside-col").append("<button id='createBeat'>Lets Go Again!</button>");
+        $(".create-own .inside-col").append("<button class='button-app' id='createBeat'>Lets Go Again!</button>");
+
+        clickFunctions();
+
+    };
+
+    let clickFunctions = function() {
 
         $("#createBeat, #makeSound").click(function () {
             displayMachine(true);
         });
+
     };
 
 
@@ -556,7 +568,7 @@ $(function() {
         $('#connexion').html(theCompiledHtml);
         $('.google-connect').html(theCompiledHtmlMast);
 
-        //changeButtonCreate();
+        clickFunctions();
 
     };
 

@@ -74,11 +74,15 @@
     <section id="machineSection" class="row" style="display: none">
         <div id="machine">
             <header id="control-machine">
+
+                <div class="bpm-block">
+                    <label for="bpm">BPM</label>
+                    <input type="text" id="bpm" name="bpm" value="120">
+                </div>
+
                 <button id="play">play</button>
                 <button id="stop">stop</button>
 
-                <label for="bpm">BPM</label>
-                <input type="text" id="bpm" name="bpm" value="120">
                 <br /><br>
 
                 <label for="bars">Bars numbers</label>
@@ -90,9 +94,11 @@
 
                 <label for="nameLoop">Put a name on that!</label>
                 <input type="text" id="nameLoop" name="nameLoop" value="name of the loop">
-
-                <div id="bar"></div>
             </header>
+
+            <div id="bar"></div>
+
+
             <form id='playerMachine'>
             </form>
             <div class="text-center">
@@ -111,11 +117,19 @@
 <script id="append-loop" type="text/x-handlebars-template">
     <div id="list-loop-{{this.idLoop}}" class="col-lg-3 col-sm-3 col-xs-12 list-loop OFF">
         <div class="inside-col">
+
             <div class="progress-bar {{this.kit.barsNbr}}">
                 {{#bar this.kit.barsNbr}}
                     <span id="{{this.i}}" style="width: calc(100%/{{this.n}}); "></span>
                 {{/bar}}
             </div>
+
+            <div class="user-block text-center">
+                <img class="img-circle" src="{{this.userimg}}" with="30" height="30"><span>{{this.username}}</span>
+            </div>
+
+            <h3>{{this.nameOfLoop}}</h3>
+
             <div class="img-loop">
                 <div class="block-play">
                     <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
@@ -124,7 +138,6 @@
                     <button id="play-{{this.idLoop}}" class="btn-block play-loop OFF">Play</button>
                 </div>
             </div>
-            <h3>{{this.nameOfLoop}}</h3>
             <h4>{{this.kit.barsNbr}} bars</h4>
             <span class="bpm">{{this.kit.bpm}} BPM</span>
         </div>
