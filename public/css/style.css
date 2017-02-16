@@ -95,6 +95,10 @@ fieldset > label:nth-child(1) {
     background: #005aa7;
 }
 
+button#saveMap {
+    margin-top: 23px;
+}
+
 button#createUser,
 button#createBeat {
     display: none;
@@ -278,7 +282,7 @@ section#machineSection {
     height: 100%;
     margin: 0;
     padding: 8%;
-    margin-top: 31px;
+    padding-top: 10%;
     background: #f8f8f8;
 }
 
