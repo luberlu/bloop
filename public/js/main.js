@@ -144,6 +144,7 @@ $(function() {
     // Play sound html5
 
     var playSound = function (link) {
+        sounds.audioObjects[link.toLowerCase()].currentTime = 0;
         sounds.audioObjects[link.toLowerCase()].play();
     };
 
