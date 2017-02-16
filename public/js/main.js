@@ -86,6 +86,9 @@ $(function() {
                     if (typeof sounds.sources[kindOfObj.toLowerCase()] == "undefined") {
                         sounds.sources[kindOfObj.toLowerCase()] = datas.defaultSounds[objects];
 
+                        console.log(sounds.sources[kindOfObj.toLowerCase()]);
+                        console.log(datas.defaultSounds[objects][kindOfObj].path);
+
                         // firebase storage call for url
 
                         soundsRef.child(datas.defaultSounds[objects][kindOfObj].path).getDownloadURL().then(function (url) {
@@ -256,6 +259,7 @@ $(function() {
 
     $("#saveMap").click(function () {
         myworker.postMessage({saveAction: true});
+        myworker.postMessage({play: false});
     });
 
     let afterCreateObjDom = function () {
@@ -410,18 +414,24 @@ $(function() {
 
         uploadSounds(files, length){
 
+            let that = this;
+
             // Let's push to database
 
             for (let i = 0; i < length; i++) {
 
                 let name = String(files[i].name);
-                let nameWithoutExtension = this._remove_file_extension(name).toLowerCase().replace(/\s/g,'');
+                let nameWithoutExtension = that._remove_file_extension(name).toLowerCase().replace(/\s/g,'');
 
-                soundsRef.child('users/' + this.uid + "/" + nameWithoutExtension + '.wav').put(files[i]);
-                myworker.postMessage({newSound: {
-                    name: nameWithoutExtension,
-                    path: 'users/' + this.uid + "/" + nameWithoutExtension + '.wav',
-                }})
+                soundsRef.child('users/' + that.uid + "/" + nameWithoutExtension + '.wav').put(files[i]).then(function(){
+
+                    myworker.postMessage({newSound: {
+                        name: nameWithoutExtension,
+                        path: 'users/' + that.uid + "/" + nameWithoutExtension + '.wav',
+                    }})
+
+                });
+
             }
 
         }

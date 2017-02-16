@@ -130,11 +130,19 @@ class Player{
 
     _createMapping(){
 
-        for(let type in this.inst.kit){ this.map[type] = {};
+        for (let type in this.inst.kit) {
+            this.map[type] = {};
 
-            for(let i = 1; i < this.barsNbr + 1; i++){
+            for (let i = 1; i < this.barsNbr + 1; i++) {
                 this.map[type][i] = 0;
             }
+        }
+
+    }
+
+    addToMapping(add){
+        for (let i = 1; i < this.barsNbr + 1; i++) {
+            this.map[add][i] = 0;
         }
     }
 
@@ -298,6 +306,10 @@ onmessage = function(e){
 
     if(typeof datas.newSound !== "undefined"){
         let newAddedObj = mydrum.addSoundToKit(datas.newSound);
+
+        console.log(newAddedObj);
+
+        //myplayer.addToMapping(newAddedObj.name);
         postMessage({defaultSounds: mydrum.returnAllSounds()});
         postMessage({drum: newAddedObj, added: true});
     }
