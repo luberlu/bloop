@@ -211,6 +211,8 @@ $(function() {
             i++;
         }
 
+        afterCreateObjDom();
+
 
     };
 

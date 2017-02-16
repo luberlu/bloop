@@ -155,6 +155,7 @@ class Player{
     }
 
     changeMap(obj){
+
         let type = (obj.id).split("_")[0];
         let barNbr = (obj.id).split("_")[1];
         this.map[type][barNbr] = obj.state;
