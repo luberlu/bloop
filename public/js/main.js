@@ -46,10 +46,12 @@ $(function() {
 
         if (typeof datas.drum !== "undefined") {
 
-            if(datas.added == false)
-                createDrum(datas.drum);
-            else
-                addSound(datas.drum);
+            if(datas.added == false) {
+                handlebarsStepsbar();
+                handlebarstrackBar(datas.drum);
+            } else {
+                handlebarstrackBar(datas.drum, 1);
+            }
 
         }
 
@@ -92,6 +94,7 @@ $(function() {
 
                         soundsRef.child(datas.defaultSounds[objects][kindOfObj].path).getDownloadURL().then(function (url) {
                             sounds.audioObjects[kindOfObj.toLowerCase()] = new Audio(url);
+                            sounds.audioObjects[kindOfObj.toLowerCase()].volume = datas.defaultSounds[objects][kindOfObj].volume;
                         });
                     }
 
@@ -116,6 +119,7 @@ $(function() {
 
                         soundsRef.child(datas.SoundsLoop[objects][kindOfObj].path).getDownloadURL().then(function (url) {
                             sounds.audioObjects[kindOfObj.toLowerCase()] = new Audio(url);
+                            sounds.audioObjects[kindOfObj.toLowerCase()].volume = datas.SoundsLoop[objects][kindOfObj].volume;
                         });
                     }
 
@@ -132,6 +136,10 @@ $(function() {
             newUser.setMap();
 
             displayMachine(false);
+        }
+
+        if(typeof datas.volume !== "undefined"){
+            sounds.audioObjects[datas.volume.inst.toLowerCase()].volume = datas.volume.volume;
         }
     };
 
@@ -165,62 +173,6 @@ $(function() {
 
     // DOM Functions
 
-    let constructBar = function (label, nbr) {
-
-        return '<label style="width:' +
-            widthStep + '%; height:100%">' +
-
-            '<input type="checkbox" name="' + label + '" id="' + label + '_' + nbr + '" value="' + nbr + '" /><span>' +
-            label + nbr + '</span>' +
-            '</label>';
-    };
-
-    let createDrum = function (obj) {
-
-        let player = $("#playerMachine");
-
-        for (let inst in obj) {
-            player.append("<fieldset id='" + inst + "'><label>" + inst + "</label></fieldset>");
-
-            // bar structure
-
-            let i = 1;
-            while (i < (barsNbr + 1)) {
-                $("fieldset#" + inst).append(constructBar(inst, i));
-                i++;
-            }
-        }
-
-        let i = 0;
-
-        while (i < barsNbr) {
-
-            $("#bar").append("<div class='steps' id='step_" + (i + 1) + "' " +
-                "style='width:" + widthStep + "%'></div>");
-            i++;
-        }
-
-        afterCreateObjDom();
-
-
-    };
-
-    let addSound = function (obj){
-
-        let player = $("#playerMachine");
-
-        player.append("<fieldset id='" + obj.name + "'><label>" + obj.name + "</label></fieldset>");
-
-        let i = 1;
-        while (i < (barsNbr + 1)) {
-            $("fieldset#" + obj.name).append(constructBar(obj.name, i));
-            i++;
-        }
-
-        afterCreateObjDom();
-
-
-    };
 
     let displayBpm = function (what, BpmCounter) {
 
@@ -256,6 +208,8 @@ $(function() {
         myworker.postMessage({nameLoop: name});
     });
 
+
+
     $("#createUser, #createUser-masthead, #createUser-top").click(function () {
         createUser();
     });
@@ -282,6 +236,20 @@ $(function() {
 
         });
 
+        $(".dial").knob({
+            'change' : function (v) {
+                let value = (v/100);
+                let what = this.$.attr('id').split("_")[1];
+
+                myworker.postMessage({volume: {
+                    inst: what,
+                    volume: value
+                }});
+
+            }
+        });
+
+
     };
 
     function displayCreate() {
@@ -303,8 +271,7 @@ $(function() {
 
                 myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
 
-                $(".list-loop").removeClass("ON").addClass("OFF");
-                $(".play-loop").removeClass("ON").addClass("OFF");
+                $(".play-loop, .list-loop").removeClass("ON").addClass("OFF");
 
                 $(this).closest(".list-loop").removeClass("OFF").addClass("ON");
                 $(this).removeClass("OFF").addClass("ON");
@@ -312,8 +279,7 @@ $(function() {
             } else {
                 myworker.postMessage({playloop: false});
 
-                $(".list-loop").removeClass("ON").addClass("OFF");
-                $(".play-loop").removeClass("ON").addClass("OFF");
+                $(".play-loop, .list-loop").removeClass("ON").addClass("OFF");
 
                 $(this).closest(".list-loop").removeClass("ON").addClass("OFF");
                 $(this).removeClass("ON").addClass("OFF");
@@ -421,6 +387,7 @@ $(function() {
             var reg_string = "\.(" + my_extensions.join("|") + ")$";
             var my_reg = new RegExp( reg_string, "i" );
             name = name.replace(my_reg, '');
+
             return name;
         }
 
@@ -433,7 +400,8 @@ $(function() {
             for (let i = 0; i < length; i++) {
 
                 let name = String(files[i].name);
-                let nameWithoutExtension = that._remove_file_extension(name).toLowerCase().replace(/\s/g,'');
+                let nameWithoutExtension = that._remove_file_extension(name)
+                    .toLowerCase().replace(/#/, ' ').replace(/\s/g,'');
 
                 soundsRef.child('users/' + that.uid + "/" + nameWithoutExtension + '.wav').put(files[i]).then(function(){
 
@@ -492,23 +460,22 @@ $(function() {
 
 
         }).catch(function (error) {
-            var errorCode = error.code;
             var errorMessage = error.message;
-            var email = error.email;
-
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-
             console.log(errorMessage);
-
         });
 
 
     };
 
     let appendloop = $("#append-loop").html();
+    let trackbar = $("#track-bar").html();
     let connexionBlock = $("#connect-user").html();
     let connexionBlockMast = $("#connect-user-master").html();
+    let stepsBarBlock = $("#steps-bar").html();
+
+    let loopsBlock = $("#all_loops");
+
+    // All loops here
 
     let loops = [];
 
@@ -525,28 +492,126 @@ $(function() {
     });
 
 
-    // Handlebars
+
+
+    // ------  HANDLEBARS  ------------------
+
+    // Handlebars Bars Helper
+
+    Handlebars.registerHelper('bar', function (n, block) {
+
+        let nbr = n.barsNbr;
+        let name = (typeof n.name !== "undefined") ? n.name : "null";
+
+        let accum = '';
+        for (let i = 1; i < (nbr + 1); ++i)
+            accum += block.fn({i: i, nbr: nbr, name: name});
+        return accum;
+
+    });
+
+    // Handlebars Steps Helper
+
+    Handlebars.registerHelper('step', function (n, block) {
+
+        let nbr = n.barsNbr;
+
+        let accum = '';
+        for (let i = 1; i < (nbr + 1); ++i)
+            accum += block.fn({i: i, nbr: nbr, widthStep: widthStep});
+        return accum;
+
+    });
+
+
+    // Handlebars Home Loop List
 
     let handlebarsUpdateList = function (loop) {
+
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
 
-        if ($('#all_loops .row .list-loop').length == 7) {
-            $('#all_loops .row .list-loop').last().remove();
+        if (loopsBlock.find(".row .list-loop").length == 7) {
+            loopsBlock.find(".row .list-loop").last().remove();
         }
 
-        $('#all_loops .row').prepend(theCompiledHtml);
+        loopsBlock.find(".row").prepend(theCompiledHtml);
+
         afterListLoad();
+
     };
 
-    // Handlebars Bar Helper
+    let handlebarsStepsbar = function(){
 
-    Handlebars.registerHelper('bar', function (n, block) {
-        let accum = '';
-        for (var i = 0; i < n; ++i)
-            accum += block.fn({i: i, n: n});
-        return accum;
-    });
+        let context = {
+            infos: {
+                barsNbr: barsNbr
+            }
+        };
+
+
+        let template = Handlebars.compile(stepsBarBlock);
+        let theCompiledHtml = template(context);
+
+        $("#bar").prepend(theCompiledHtml);
+
+        afterCreateObjDom();
+
+    };
+
+    // Handlebars Track Drum Machine
+
+    let handlebarstrackBar = function(obj, add){
+
+        let drumMachine = $("#playerMachine");
+
+        // init
+
+        if(typeof add == "undefined") {
+
+            for (let inst in obj) {
+                if (obj.hasOwnProperty(inst)) {
+
+                    let context = {
+                        name: inst,
+                        infos: {
+                            barsNbr: barsNbr,
+                            name: inst
+                        }
+
+                    };
+
+                    let template = Handlebars.compile(trackbar);
+                    let theCompiledHtml = template(context);
+
+                    drumMachine.append(theCompiledHtml);
+
+                }
+            }
+
+        } else {
+
+            // add Sounds
+
+            let context = {
+                name: obj.name,
+                infos: {
+                    barsNbr: barsNbr,
+                    name: obj.name
+                }
+
+            };
+
+            let template = Handlebars.compile(trackbar);
+            let theCompiledHtml = template(context);
+
+            drumMachine.append(theCompiledHtml);
+
+        }
+
+        afterCreateObjDom();
+
+    };
 
 
     // Handlebars Connect block
@@ -586,7 +651,8 @@ $(function() {
 
         });
 
-    }
+    };
+
 
 
 });

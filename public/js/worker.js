@@ -14,51 +14,61 @@ let DrumKit = {
     kicks: {
         "Kick01": {
             path: "default/kick/kick01.wav",
-            activated: false
+            activated: false,
+            volume: 1
         },
         "Kick02": {
             path: "default/kick/kick02.wav",
-            activated: true
+            activated: true,
+            volume: 1
         }
     },
     snares: {
         "Snare01": {
             path:"default/snare/snare01.wav",
-            activated: false
+            activated: false,
+            volume: 1
         },
         "Snare02": {
             path: "default/snare/snare02.wav",
-            activated: true
+            activated: true,
+            volume: 1
         }
     },
     hihats: {
         "Hi-hat01": {
             path: "default/hi-hat/hi-hat01.wav",
-            activated: true
+            activated: true,
+            volume: 1
         },
         "Hi-hat02": {
             path: "default/hi-hat/hi-hat02.wav",
-            activated: false
+            activated: false,
+            volume: 1
         }
     },
     percs: {
         "Perc01": {
             path: "default/perc/perc01.wav",
-            activated: true
+            activated: true,
+            volume: 1
         },
         "Perc02": {
             path: "default/perc/perc02.wav",
-            activated: false
+            activated: false,
+            volume: 1
         }
     },
     fx: {
         "FX01": {
             path: "default/fx/fx01.wav",
-            activated: false
+            activated: false,
+            volume: 1
         },
         "FX02": {
             path: "default/fx/fx02.wav",
-            activated: true
+            activated: true,
+            volume: 1
         }
     }
 };
@@ -79,7 +89,8 @@ class Inst {
         this.kit[sound.name] = [];
         this.kit[sound.name][sound.name] = {
             path: sound.path,
-            activated: true
+            activated: true,
+            volume: 1
         };
 
         return sound.name;
@@ -88,6 +99,23 @@ class Inst {
 
     returnAllSounds(){
         return this.kit;
+    }
+
+    changeVolume(inst, volume){
+        for(let instKit in this.kit){
+            if(instKit == inst){
+                for(let prop in this.kit[instKit]){
+                    this.kit[instKit][prop].volume = volume;
+
+                    postMessage({volume: {
+                        inst: prop,
+                        volume: volume
+                    }});
+
+                }
+            }
+        }
+
     }
 
 
@@ -318,6 +346,10 @@ onmessage = function(e){
         postMessage({drum: datas.newSound, added: true});
     }
 
+    if(typeof datas.volume !== "undefined"){
+        mydrum.changeVolume(datas.volume.inst, datas.volume.volume);
+    }
+
 
     // Play loops list
 
@@ -347,9 +379,4 @@ onmessage = function(e){
 
 };
 
-
-
-// send datas to main.js
-
-//postMessage();
 

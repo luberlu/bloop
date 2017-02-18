@@ -1,3 +1,13 @@
+.clearfix {height:1%}
+.clearfix:after {
+    content:".";
+    height:0;
+    line-height:0;
+    display:block;
+    visibility:hidden;
+    clear:both;
+}
+
 .navbar-default .navbar-brand,  .navbar-default .navbar-brand:hover{
     color: #fff;
     background: #0BF997;
@@ -29,9 +39,16 @@ a.navbar-brand img {
 div#bar {
     display: block;
     height: 26px;
-    margin-top: 16px;
     width: 100%;
     background: rgba(11, 249, 151, 0.15);
+}
+
+span.before-bar {
+    display: block;
+    float: left;
+    width: 10%;
+    height: 100%;
+    background: antiquewhite;
 }
 
 h3 {
@@ -56,6 +73,7 @@ div#bar div {
 
     width: 100%;
     height: 55px;
+    margin: 0;
     background: rgba(11, 249, 151, 0.15);
     border: solid 1px white;
     transition: all 0.3s ease;
@@ -67,16 +85,29 @@ div#bar div {
 }
 
 fieldset > label:nth-child(1) {
-    width: 100%;
+    width: 10%;
+    background: rgb(231, 231, 231);
+    height: 53px;
+    margin-top: 1px;
+    color: #333333;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 15px;
+    padding-top: 17px;
 }
+
+fieldset > label {
+    float: left;
+}
+
 
 #playerMachine fieldset label span {
     display: none;
 }
 
 .steps.on {
-    background: rgba(11, 249, 151, 1);
-    transition: all 0.7s ease;
+    background: #4fa3ea;
+    /*transition: all 0.7s ease;*/
 }
 
 .button-app {
@@ -89,6 +120,7 @@ fieldset > label:nth-child(1) {
     border-radius: 12px;
     font-size: 17px;
     font-weight: 500;
+
 }
 
 .button-app:hover {
@@ -96,7 +128,11 @@ fieldset > label:nth-child(1) {
 }
 
 button#saveMap {
-    margin-top: 23px;
+    float: right;
+    clear: both;
+    margin-right: 22px;
+    margin-bottom: 16px;
+    margin-top: -12px;
 }
 
 button#createUser,
@@ -308,11 +344,13 @@ header#control-machine {
     margin-top: 66px;
 }
 
-form#playerMachine {
-    padding: 10%;
-    padding-top: 5%;
-    padding-bottom: 0;
+#machine h1 {
+    color: #fff;
+    float: left;
+    margin-left: 18px;
+    font-size: 26px;
 }
+
 
 section#masthead {
     background-color: #0bf997;
@@ -364,16 +402,147 @@ div#connect span {
 }
 
 .bpm-block {
-    float: right;
-    font-size: 32px;
-    margin-top: 12px;
-    margin-right: 18px;
+    float: left;
+    font-size: 24px;
+    margin-top: 0px;
+    margin-left: 18px;
+    clear: both;
+}
+
+.name-block {
+    float: left;
+}
+
+.bpm-block label {
+    color: #333333;
 }
 
 .bpm-block input {
-    width: 70px;
-    border: none;
+    width: 60px;
+    border: solid 3px #fff;
+    padding: 6px;
     background: none;
     color: white;
     outline: none;
+}
+
+label#nameLabel {
+    margin-left: 18px;
+    font-size: 22px;
+}
+
+input#nameLoop {
+    border: none;
+    font-size: 24px;
+    margin-left: 5px;
+    background: none;
+    color: white;
+    outline: none;
+}
+
+input.dial {
+    font-size: 14px !important;
+    float: left;
+}
+
+fieldset {
+    width: 92%;
+    display: inline-block;
+}
+
+form#playerMachine {
+    margin-top: 12px;
+}
+
+fieldset select {
+    float: left;
+    border: none;
+    width: 10%;
+    background: rgb(231, 231, 231);
+    height: 53px;
+    margin-top: 1px;
+    color: #333333;
+    text-align: center;
+    font-weight: 500;
+    padding-top: 17px;
+    border-radius: 0;
+}
+
+#newSound {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#newSound + label {
+    height: 61px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 12px;
+    color: #333;
+    float: left;
+    background: #0bf997;
+    border-radius: 14px;
+    margin-left: 16px;
+    margin-top: 8px;
+}
+
+#newSound + label img {
+    height: 100%;
+}
+
+#newSound + label span {
+    padding-left: 7px;
+    font-size: 17px;
+}
+
+figure {
+    height: 80%;
+    width: 100%;
+}
+
+figure svg:not(:root) {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+button#play {
+    text-indent: -9999px;
+    width: 39px;
+    height: 39px;
+    background: url(../img/play-button.svg);
+    background-size: cover;
+    border: none;
+    outline: none;
+    margin-right: 11px;
+}
+
+button#stop {
+    text-indent: -9999px;
+    width: 39px;
+    height: 39px;
+    background: url(../img/stop-button.svg);
+    background-size: cover;
+    border: none;
+    outline: none;
+}
+
+button#play:hover, button#stop:hover {
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+}
+
+.control-play {
+    float: right;
+    margin-right: 23px;
+    padding-top: 17px;
 }
