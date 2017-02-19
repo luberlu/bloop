@@ -153,11 +153,18 @@ $(function() {
 
     // Play sound html5
 
-    var playSound = function (link) {
+    let playSound = function (link) {
 
         if(typeof sounds.audioObjects[link.toLowerCase()].currentTime !== "undefined") {
             sounds.audioObjects[link.toLowerCase()].currentTime = 0;
             sounds.audioObjects[link.toLowerCase()].play();
+        }
+    };
+
+    let stopEverySounds = function (){
+
+        for(let sound in sounds.audioObjects){
+            sounds.audioObjects[sound].pause();
         }
     };
 
@@ -217,6 +224,7 @@ $(function() {
     $("#saveMap").click(function () {
         myworker.postMessage({saveAction: true});
         myworker.postMessage({play: false});
+        stopEverySounds();
     });
 
     $(".navbar-header").click(function(){
@@ -269,6 +277,7 @@ $(function() {
 
             if ($(this).hasClass("OFF")) {
 
+                stopEverySounds();
                 myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
 
                 $(".play-loop, .list-loop").removeClass("ON").addClass("OFF");
@@ -277,6 +286,7 @@ $(function() {
                 $(this).removeClass("OFF").addClass("ON");
 
             } else {
+                stopEverySounds();
                 myworker.postMessage({playloop: false});
 
                 $(".play-loop, .list-loop").removeClass("ON").addClass("OFF");
@@ -292,6 +302,7 @@ $(function() {
 
         if (action) {
 
+            stopEverySounds();
             $(".create-own").hide();
             $("#machineSection").slideDown();
             $(".jumbotron").hide();
@@ -415,6 +426,21 @@ $(function() {
             }
 
         }
+
+        uploadRecordSound(file, filename){
+
+            let that = this;
+
+            soundsRef.child('users/' + that.uid + "/records/" + filename + '.wav').put(file).then(function(){
+
+                myworker.postMessage({newSound: {
+                    name: filename,
+                    path: 'users/' + that.uid + "/records/" + filename + '.wav',
+                }})
+
+            });
+
+        };
     }
 
     // A transformer avec handlebars
@@ -665,6 +691,10 @@ $(function() {
     var context = null;
     var blob = null;
 
+    let bar = 2;
+    let nameRecord;
+    let urlAudio;
+
     function flattenArray(channelBuffer, recordingLength) {
         var result = new Float32Array(recordingLength);
         var offset = 0;
@@ -694,7 +724,23 @@ $(function() {
         }
     }
 
+    let initRecord = function() {
+
+        leftchannel = [];
+        rightchannel = [];
+        recorder = null;
+        recordingLength = 0;
+        volume = null;
+        mediaStream = null;
+        sampleRate = 44100;
+        context = null;
+        blob = null;
+
+    };
+
     let recordFunction = function() {
+
+        initRecord();
 
         // Initialize recorder
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -735,7 +781,11 @@ $(function() {
     let stopRecordFunction = function(){
 
         clearInterval(interval);
-        console.log("recorded. Let's play now");
+        $("#add-record, #play-record").show();
+        $("#record").html("Record again");
+        bar = 2;
+        nameRecord = Math.round(Math.random() * 65000);
+
 
         // stop recording
         recorder.disconnect(context.destination);
@@ -779,10 +829,9 @@ $(function() {
     };
 
     let interval;
-    let bar = 2;
 
     let displayBar = function(){
-        console.log(bar + " seconds last");
+        $("#record").html(bar + " seconds last");
         bar--;
     };
 
@@ -802,16 +851,25 @@ $(function() {
 
 
     $("#play-record").click(function () {
+
         if (blob == null) {
             return;
         }
-        var url = window.URL.createObjectURL(blob);
-        var audio = new Audio(url);
-        console.log(audio);
-        audio.play();
 
-        let nameRecord = Math.round(Math.random() * 65000);
-        console.log(nameRecord);
+        urlAudio = window.URL.createObjectURL(blob);
+
+        let audio = new Audio(urlAudio);
+        audio.play();
+    });
+
+    $("#add-record").click(function() {
+
+        if (blob == null) {
+            return;
+        }
+
+        newUser.uploadRecordSound(blob, nameRecord);
+
     });
 
 

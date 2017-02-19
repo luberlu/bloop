@@ -510,7 +510,8 @@ button#record {
     background-size: 39px;
     background-position-y: center;
     background-position-x: 5px;
-    background-color: #e7e7e7;
+    background-color: #ff7f7f;
+    color: white;
     background-repeat: no-repeat;
     padding: 11px;
     padding-left: 29px;
@@ -519,6 +520,26 @@ button#record {
     font-size: 16px;
     border-radius: 10px;
     width: 253px;
+    margin-top: 8px;
+    margin-left: 17px;
+    float: left;
+    font-weight: 700;
+}
+
+button#play-record, button#add-record {
+    display: none;
+    /* background: url(../img/micro.svg); */
+    background-size: 39px;
+    background-position-y: center;
+    background-position-x: 5px;
+    background-color: #e7e7e7;
+    background-repeat: no-repeat;
+    padding: 11px;
+    padding-left: 13px;
+    border: none;
+    height: 59px;
+    font-size: 16px;
+    border-radius: 10px;
     margin-top: 8px;
     margin-left: 17px;
     float: left;
