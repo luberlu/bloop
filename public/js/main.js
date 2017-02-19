@@ -202,6 +202,7 @@ $(function() {
     });
 
     stopbtn.click(function () {
+        stopEverySounds();
         myworker.postMessage({play: false});
     });
 
@@ -215,7 +216,9 @@ $(function() {
         myworker.postMessage({nameLoop: name});
     });
 
-
+    $(".nav.navbar-nav li a").click(function () {
+        displayMachine(false);
+    });
 
     $("#createUser, #createUser-masthead, #createUser-top").click(function () {
         createUser();
