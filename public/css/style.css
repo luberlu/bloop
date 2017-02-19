@@ -588,3 +588,30 @@ button#play:hover, button#stop:hover {
     margin-right: 23px;
     padding-top: 17px;
 }
+
+section#loopsSection {
+    margin-bottom: 0;
+}
+
+section#actions {
+    background: #f8f8f8;
+    margin-bottom: 0;
+}
+
+a.btn.btn-facebook {
+    background: #4fa3ea;
+    color: white;
+    font-size: 17px;
+    padding: 19px;
+    padding-left: 49px;
+    border-radius: 11px;
+    background-image: url(../img/facebook-logo.svg);
+    background-repeat: no-repeat;
+    background-size: 31px;
+    background-position-y: center;
+    background-position-x: 10px;
+}
+
+a.btn.btn-facebook:hover {
+    background-color: #005aa7;
+}
