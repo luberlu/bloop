@@ -504,6 +504,27 @@ fieldset select {
     font-size: 17px;
 }
 
+button#record {
+    display: block;
+    background: url(../img/micro.svg);
+    background-size: 39px;
+    background-position-y: center;
+    background-position-x: 5px;
+    background-color: #e7e7e7;
+    background-repeat: no-repeat;
+    padding: 11px;
+    padding-left: 29px;
+    border: none;
+    height: 59px;
+    font-size: 16px;
+    border-radius: 10px;
+    width: 253px;
+    margin-top: 8px;
+    margin-left: 17px;
+    float: left;
+    font-weight: 700;
+}
+
 figure {
     height: 80%;
     width: 100%;
