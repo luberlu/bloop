@@ -234,6 +234,7 @@ $(function() {
         displayMachine(false);
     });
 
+
     let afterCreateObjDom = function () {
 
         $('#playerMachine :input').change(function (e) {
@@ -512,7 +513,7 @@ $(function() {
 
     let incrementLoop = 0;
 
-    database.child("loops/").limitToLast(7).on("child_added", function (snap) {
+    database.child("loops/").limitToLast(50).on("child_added", function (snap) {
         let datas = snap.val();
         loops.push(datas);
 
@@ -521,9 +522,17 @@ $(function() {
     });
 
 
-
-
     // ------  HANDLEBARS  ------------------
+
+    // Handlebars Bars Helper
+
+    Handlebars.registerHelper('progress-bar', function (n, block) {
+        let accum = '';
+        for (let i = 0; i < n; ++i)
+            accum += block.fn({i: i, n: n});
+        return accum;
+    });
+
 
     // Handlebars Bars Helper
 
@@ -555,14 +564,14 @@ $(function() {
 
     // Handlebars Home Loop List
 
-    let handlebarsUpdateList = function (loop) {
+    let handlebarsUpdateList = function (loop, seemore) {
 
         let template = Handlebars.compile(appendloop);
         let theCompiledHtml = template(loop);
 
-        if (loopsBlock.find(".row .list-loop").length == 7) {
-            loopsBlock.find(".row .list-loop").last().remove();
-        }
+        if(typeof seemore == "undefined")
+            if (loopsBlock.find(".row .list-loop").length == 50)
+                loopsBlock.find(".row .list-loop").last().remove();
 
         loopsBlock.find(".row").prepend(theCompiledHtml);
 

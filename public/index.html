@@ -68,6 +68,7 @@
                         <button class="button-app" id="createUser">Google connect ></button>
                     </div>
                 </div>
+
             </div>
         </section>
     </section>
@@ -122,9 +123,9 @@
         <div class="inside-col">
 
             <div class="progress-bar {{this.kit.barsNbr}}">
-                {{#bar this.kit.barsNbr}}
+                {{#progress-bar this.kit.barsNbr}}
                     <span id="{{this.i}}" style="width: calc(100%/{{this.n}}); "></span>
-                {{/bar}}
+                {{/progress-bar}}
             </div>
 
             <div class="user-block text-center">
@@ -135,7 +136,7 @@
 
             <div class="img-loop">
                 <div class="block-play">
-                    <img src="https://i1.sndcdn.com/avatars-000094986622-i4ly52-t500x500.jpg"
+                    <img src="img/loop-picture.jpg"
                          class="img-circle img-responsive"
                          alt="Cinque Terre">
                     <button id="play-{{this.idLoop}}" class="btn-block play-loop OFF">Play</button>
