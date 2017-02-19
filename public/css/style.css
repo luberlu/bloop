@@ -615,3 +615,16 @@ a.btn.btn-facebook {
 a.btn.btn-facebook:hover {
     background-color: #005aa7;
 }
+
+.stats span {
+    font-weight: 600;
+    margin-right: 7px;
+}
+
+.stats p {
+    font-size: 35px;
+}
+
+.stats.text-center {
+    margin-bottom: 49px;
+}

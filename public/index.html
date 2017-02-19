@@ -134,6 +134,9 @@
     </section>
     <section id="actions" class="jumbotron row">
 
+        <h3>Our statistics</h3>
+        <div class="stats text-center"></div>
+
         <div class="text-center">
             <a href="https://www.facebook.com/sharer/sharer.php?u=https://my-firebase-f02fa.firebaseapp.com/" title="Share on Facebook" target="_blank" class="btn btn-facebook">Tell your friends to try it ></a>
         </div>
@@ -210,6 +213,22 @@
 
 </script>
 
+
+<script id="stats-block" type="text/x-handlebars-template">
+
+    <div class="loops">
+        <p><span>{{this.loops}}</span> loops</p>
+    </div>
+
+    <div class="users">
+        <p><span>{{this.users}}</span> bloopers</p>
+    </div>
+
+    <div class="users">
+        <p><span>{{this.listens}}</span> listeners</p>
+    </div>
+
+</script>
 
 <script src="js/lib/jquery.js"></script>
 <script src="js/lib/bootstrap.min.js"></script>

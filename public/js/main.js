@@ -286,6 +286,8 @@ $(function() {
             if ($(this).hasClass("OFF")) {
 
                 stopEverySounds();
+                statsGuest.addListens();
+
                 myworker.postMessage({playloop: true, loopDatas: loops[idLoop]});
 
                 $(".play-loop, .list-loop").removeClass("ON").addClass("OFF");
@@ -462,6 +464,42 @@ $(function() {
 
     class Stats {
         constructor(){
+            this._alreadyStatListen();
+        }
+
+        _alreadyStatListen(){
+
+            let that = this;
+
+            database.child("stats/listens").once("value", function (snap) {
+                let exists = (snap.val() !== null);
+
+                if (!exists) {
+                    that.listens = 0;
+
+                    database.child("stats/listens/").set({
+                        listens: that.listens
+                    });
+
+                } else {
+                    that.listens = snap.val().listens;
+
+                    database.child("stats/listens/").set({
+                        listens: that.listens
+                    });
+                }
+
+            });
+
+        }
+
+        addListens(){
+
+            this.listens++;
+
+            database.child("stats/listens/").set({
+                listens: this.listens
+            });
 
         }
     }
@@ -469,8 +507,6 @@ $(function() {
     // New instance of stats GUEST
 
     let statsGuest = new Stats();
-
-
 
 
     let changeButtonCreate = function () {
@@ -528,6 +564,7 @@ $(function() {
     let connexionBlock = $("#connect-user").html();
     let connexionBlockMast = $("#connect-user-master").html();
     let stepsBarBlock = $("#steps-bar").html();
+    let statsBlock = $("#stats-block").html();
 
     // Loops block
 
@@ -536,6 +573,28 @@ $(function() {
     // All loops here
 
     let loops = [];
+
+    // Stats here
+
+    let stats = {
+        users: 0,
+        loops: 0,
+        listens: 0,
+    };
+
+    database.child("users").on("value", function(snapshot) {
+        stats.users = snapshot.numChildren();
+    });
+
+    database.child("loops").on("value", function(snapshot) {
+        stats.loops = snapshot.numChildren();
+        handlebarsStats(stats);
+    });
+
+    database.child("stats/listens").on("value", function(snapshot) {
+        stats.listens = snapshot.val().listens;
+        handlebarsStats(stats);
+    });
 
     // Database on_child_added for Home "Last loop added"
 
@@ -588,6 +647,17 @@ $(function() {
         return accum;
 
     });
+
+    // Handlebars stats
+
+    let handlebarsStats = function(stats) {
+
+        let template = Handlebars.compile(statsBlock);
+
+        let theCompiledHtml = template(stats);
+        $(".stats").html(theCompiledHtml);
+
+    };
 
 
     // Handlebars Home Loop List
