@@ -493,6 +493,30 @@ $(function() {
 
         }
 
+
+        addAbandons(){
+
+            database.child("stats/abandons").once("value", function (snap) {
+                let exists = (snap.val() !== null);
+
+                if (!exists) {
+
+                    database.child("stats/abandons/").set({
+                        abandons: 1
+                    });
+
+                } else {
+
+                    database.child("stats/abandons/").set({
+                        abandons: snap.val().abandons + 1
+                    });
+                }
+
+            });
+
+
+        }
+
         addListens(){
 
             this.listens++;
@@ -550,8 +574,11 @@ $(function() {
 
 
         }).catch(function (error) {
+
+            statsGuest.addAbandons();
+
             var errorMessage = error.message;
-            console.log(errorMessage);
+            //console.log(errorMessage);
         });
 
 
