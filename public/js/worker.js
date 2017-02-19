@@ -295,12 +295,14 @@ class Player{
 }
 
 
+
 // Init function
 
 let init = function(bpm, barsNbr){
 
     mydrum = new Drum(DrumKit, "Drum");
     myplayer = new Player(bpm, barsNbr, mydrum);
+
 
     postMessage({drum: mydrum.kit, added: false});
     postMessage({defaultSounds: mydrum.returnAllSounds()});

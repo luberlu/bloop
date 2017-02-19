@@ -41,6 +41,8 @@ $(function() {
         }
     });
 
+    // All worker message here
+
     myworker.onmessage = function (event) {
         let datas = event.data;
 
@@ -178,8 +180,8 @@ $(function() {
     let nameInput = $("#nameLoop");
     let widthStep = (1 / barsNbr) * 100;
 
-    // DOM Functions
 
+    // Display BPM Animation
 
     let displayBpm = function (what, BpmCounter) {
 
@@ -195,7 +197,7 @@ $(function() {
 
     };
 
-    // Interactions (clicks, keyboard..)
+    // Interactions functionnalities
 
     playbtn.click(function () {
         myworker.postMessage({play: true});
@@ -272,6 +274,8 @@ $(function() {
 
         displayCreate();
 
+        // Play the home loops
+
         $(".play-loop").off().on("click", function (e) {
 
             e.preventDefault();
@@ -301,6 +305,7 @@ $(function() {
         });
     };
 
+    // display Machine (true or false)
 
     let displayMachine = function (action) {
 
@@ -341,6 +346,8 @@ $(function() {
             this.maps.push(kit);
         }
 
+        // check if User already Exist to the dabatase
+
         _checkIfAlreadyExist() {
 
             let that = this;
@@ -358,6 +365,8 @@ $(function() {
             });
 
         }
+
+        // set Loop to the database
 
         setMap() {
 
@@ -396,6 +405,8 @@ $(function() {
             });
 
         }
+
+        // Remove sound file extension for the storage
 
         _remove_file_extension(name, extensions) {
             var my_extensions = extensions || ["wav","WAV","AIF","aif","mp3","ogg","aac","AAC","OGG"];
@@ -447,7 +458,20 @@ $(function() {
         };
     }
 
-    // A transformer avec handlebars
+    // Stats class who control the stats of the current User
+
+    class Stats {
+        constructor(){
+
+        }
+    }
+
+    // New instance of stats GUEST
+
+    let statsGuest = new Stats();
+
+
+
 
     let changeButtonCreate = function () {
 
@@ -497,11 +521,15 @@ $(function() {
 
     };
 
+    // Script block handlebars
+
     let appendloop = $("#append-loop").html();
     let trackbar = $("#track-bar").html();
     let connexionBlock = $("#connect-user").html();
     let connexionBlockMast = $("#connect-user-master").html();
     let stepsBarBlock = $("#steps-bar").html();
+
+    // Loops block
 
     let loopsBlock = $("#all_loops");
 
@@ -509,7 +537,7 @@ $(function() {
 
     let loops = [];
 
-    // Database on_child_added
+    // Database on_child_added for Home "Last loop added"
 
     let incrementLoop = 0;
 
