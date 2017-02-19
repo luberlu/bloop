@@ -431,14 +431,20 @@ $(function() {
                 let nameWithoutExtension = that._remove_file_extension(name)
                     .toLowerCase().replace(/#/, ' ').replace(/\s/g,'');
 
-                soundsRef.child('users/' + that.uid + "/" + nameWithoutExtension + '.wav').put(files[i]).then(function(){
+                if(files[i].size < 2097152) {
 
-                    myworker.postMessage({newSound: {
-                        name: nameWithoutExtension,
-                        path: 'users/' + that.uid + "/" + nameWithoutExtension + '.wav',
-                    }})
+                    soundsRef.child('users/' + that.uid + "/" + nameWithoutExtension + '.wav').put(files[i]).then(function () {
 
-                });
+                        myworker.postMessage({
+                            newSound: {
+                                name: nameWithoutExtension,
+                                path: 'users/' + that.uid + "/" + nameWithoutExtension + '.wav',
+                            }
+                        })
+
+                    });
+
+                }
 
             }
 
